@@ -124,6 +124,9 @@ function addNewUser() {
     event.preventDefault();
 }
 
+// chua lam
+
+
 function editUser(id) {
     $.ajax({
         type: "GET",
@@ -131,77 +134,100 @@ function editUser(id) {
         url: `http://localhost:8080/admin/users/${id}`,
         //xử lý khi thành công
         success: function (data) {
-            $('#name').val(data.name);
-            $('#price').val(data.price);
-            $('#image').val(data.image);
-            $('#description').val(data.description);
-            index = data.id;
-            document.getElementById("form").hidden = false;
-            document.getElementById("form-button").onclick = function () {
-                editProduct1()
-            };
-            getCategory();
+            $('#userFullName').val(data.fullName);
+            $('#userEmail').val(data.email);
+            $('#accountName').val(data.username);
+            $('#password').val(data.password);
+            $('#rePassword').val(data.rePassword);
+            $('#phoneNumber').val(data.phoneNumber);
+            $('#birth').val(data.birth);
+            $('#address').val(data.address);
+            $('#identify').val(data.identify);
+            indexUser = data.id;
+            document.getElementById("formUser").hidden = false;
+            document.getElementById("form-button-user").onclick = function () {
+                editUser1(indexUser);
+            }
         }
     });
+    getRole();
 }
 
-function editProduct1() {
-    //lay du lieu
-    let name = $('#name').val();
-    let price = $('#price').val();
-    let image = $('#image').val();
-    let description = $('#description').val();
-    let category = $('#category').val();
-    let newProduct = {
-        name: name,
-        price: price,
-        image: image,
-        description: description,
-        category: {
-            id: category,
-        }
+function editUser1(id) {
+    let fullName = $('#userFullName').val();
+    let email = $('#userEmail').val();
+    let username = $('#accountName').val();
+    let rePassword = $('#rePassword').val();
+    let address = $('#address').val();
+    let phoneNumber = $('#phoneNumber').val();
+    let password = $('#password').val();
+    let identify = $('#identify').val();
+    let role = $('#role').val();
+    let birth = $('#birth').val();
+    let newUser = {
+        fullName: fullName,
+        email: email,
+        username: username,
+        password: password,
+        rePassword: rePassword,
+        phoneNumber: phoneNumber,
+        birth: birth,
+        address: address,
+        identify: identify,
+        role: {
+            id: role,
+        },
     };
+    let data = new FormData;
+    data.append("json", new Blob([JSON.stringify(newUser)],{
+        type: "application/json"
+    }))
     // goi ajax
     $.ajax({
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
         type: "PUT",
-        data: JSON.stringify(newProduct),
+        data: data,
+        processData: false,
+        contentType: false,
         //tên API
-        url: `http://localhost:8080/api/products/${index}`,
+        url: `http://localhost:8080/admin/users/${id}`,
         //xử lý khi thành công
         success: function () {
-            getProduct()
+            getUser();
         }
     });
     //chặn sự kiện mặc định của thẻ
     event.preventDefault();
+
 }
 
-
-
-function getProductByPage(page) {
+function getUserByPage(page) {
     $.ajax({
         type: "GET",
-        url: `http://localhost:8080/api/products/page?page=${page}`,
+        //tên API
+        url: `http://localhost:8080/admin/users/page?page=${page}`,
+        //xử lý khi thành công
         success: function (data) {
             let array = data.content
+            // hien thi danh sach o day
             let content = '<tr>\n' +
-                '<th>ProductName</th>\n' +
-                '<th>Price</th>\n' +
-                '<th>Image</th>\n' +
-                '<th>Desciption</th>\n' +
-                '<th>Category</th>\n' +
+                '<th>Name</th>\n' +
+                '<th>email</th>\n' +
+                '<th>username</th>\n' +
+                '<th> password</th>\n' +
+                '<th>rePassword;</th>\n' +
+                '<th>phoneNumber</th>\n' +
+                '<th>birth</th>\n' +
+                '<th>address</th>\n' +
+                '<th>Identify</th>\n' +
+                '<th>role</th>\n' +
                 '<th colspan="2">Action</th>\n' +
                 '</tr>';
             for (let i = 0; i < array.length; i++) {
-                content += displayProduct(array[i]);
+                content += displayUser(array[i]);
             }
-            document.getElementById("productList").innerHTML = content;
-            document.getElementById("displayPage").innerHTML = displayPage(data)
-            document.getElementById("form").hidden = true;
+            document.getElementById("userList").innerHTML = content;
+            document.getElementById("displayPageUser").innerHTML = displayPage(data)
+            document.getElementById("formUser").hidden = true;
             if (data.pageable.pageNumber === 0) {
                 document.getElementById("backup").hidden = true
             }
@@ -212,55 +238,65 @@ function getProductByPage(page) {
     });
 }
 
-function displayPage(data){
+function displayPageUser(data){
     return `<button class="btn btn-primary" id="backup" onclick="isPrevious(${data.pageable.pageNumber})">Previous</button>
     <span>${data.pageable.pageNumber+1} | ${data.totalPages}</span>
     <button class="btn btn-primary" id="next" onclick="isNext(${data.pageable.pageNumber})">Next</button>`
 }
 
 function isPrevious(pageNumber) {
-    getProductByPage(pageNumber-1)
+    getUserByPage(pageNumber-1)
 }
 
 function isNext(pageNumber) {
-    getProductByPage(pageNumber+1)
+    getUserByPage(pageNumber+1)
 }
 
-function deleteProduct(id) {
-    $.ajax({
-        type: "DELETE",
-        url: `http://localhost:8080/api/products/${id}`,
-        success: function () {
-            getProduct()
-        }
-    });
-}
-
-function searchProduct() {
-    let search = document.getElementById("search").value;
+function searchUser() {
+    let searchUser = document.getElementById("searchUser").value;
     $.ajax({
         type: "GET",
         //tên API
-        url: `http://localhost:8080/api/products/search?search=${search}`,
+        url: `http://localhost:8080/admin/users/search?search=${searchUser}`,
         //xử lý khi thành công
         success: function (data) {
             // hien thi danh sach o day
             let content = '<tr>\n' +
-                '<th>ProductName</th>\n' +
-                '<th>Price</th>\n' +
-                '<th>Image</th>\n' +
-                '<th>Desciption</th>\n' +
+                '<th>Name</th>\n' +
+                '<th>birth</th>\n' +
+                '<th>email</th>\n' +
+                '<th>username</th>\n' +
+                '<th> password</th>\n' +
+                '<th>rePassword</th>\n' +
+                '<th>phoneNumber</th>\n' +
+                '<th>address</th>\n' +
+                '<th>Identify</th>\n' +
+                '<th>role</th>\n' +
                 '<th colspan="2">Action</th>\n' +
                 '</tr>';
             for (let i = 0; i < data.length; i++) {
-                content += displayProduct(data[i]);
+                content += displayUser(data[i]);
             }
-            document.getElementById('productList').innerHTML = content;
-            document.getElementById("searchForm").reset()
+            document.getElementById('userList').innerHTML = content;
+            // document.getElementById("searchFormUser").reset()
         }
     });
     event.preventDefault();
 }
+
+
+function deleteUser(id) {
+    $.ajax({
+        type: "DELETE",
+        //tên API
+        url: `http://localhost:8080/admin/users/${id}`,
+        //xử lý khi thành công
+        success: function () {
+            getUser()
+        }
+    });
+}
+
 
 function displayManagerUser(){
     document.getElementById("manager-teacher").hidden=true;

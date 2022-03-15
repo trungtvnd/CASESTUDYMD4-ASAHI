@@ -37,7 +37,7 @@ public class AppUserController {
     }
 
     @GetMapping("/page")
-    public ResponseEntity<Page<AppUser>> showPage(@PageableDefault(value = 3) Pageable pageable) {
+    public ResponseEntity<Page<AppUser>> showPage(@PageableDefault(value =2) Pageable pageable) {
         Page<AppUser> users = iAppUserService.findPage(pageable);
         if (!users.iterator().hasNext()) {
             new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -51,7 +51,7 @@ public class AppUserController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<AppUser> editStudent(@RequestBody AppUser appUserEdit,@PathVariable("id") Long id){
+    public ResponseEntity<AppUser> editStudent(@RequestPart("json") AppUser appUserEdit,@PathVariable("id") Long id){
         Optional<AppUser> appUser = iAppUserService.findById(id);
         if(!appUser.isPresent()){
             new ResponseEntity<>(HttpStatus.NOT_FOUND);

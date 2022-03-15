@@ -1,5 +1,4 @@
-let index = 0;
-
+let indexTeacher = 0;
 
 
 function getTeacher() {
@@ -12,44 +11,47 @@ function getTeacher() {
             // hien thi danh sach o day
             let content = '<tr>\n' +
                 '<th>Full Name</th>\n' +
-                '<th>Birth</th>\n' +
                 '<th>Gender</th>\n' +
-                '<th>Phone Number</th>\n' +
-                '<th>Email</th>\n' +
-                '<th>Username</th>\n' +
+                '<th>AppUser</th>\n' +
+                '<th>img</th>\n' +
+                '<th>classes</th>\n' +
                 '<th>Identify</th>\n' +
-                '<th>Picture</th>\n' +
                 '<th colspan="2">Action</th>\n' +
                 '</tr>';
             for (let i = 0; i < data.length; i++) {
                 content += displayTeacher(data[i]);
             }
             document.getElementById("teacherList").innerHTML = content;
-            document.getElementById("form").hidden = true;
+            document.getElementById("formTeacher").hidden = true;
         }
     });
 }
+
 function displayTeacher(teacher) {
-    return `<tr><td>${teacher.appUser.fullName}</td><td>${teacher.appUser.birth}</td>
-            <td>${teacher.gender}</td><td>${teacher.appUser.phoneNumber}</td><td>${teacher.appUser.email}</td><td>${teacher.appUser.username}</td><td>${teacher.appUser.identify}</td><td><img src="${teacher.image}" alt="loi"></td>
+    return `<tr>
+            <td>${teacher.name}</td>
+            <td>${teacher.gender}</td>
+            <td><img src="${teacher.image}" alt="loi"></td>
+            <td>${teacher.classes}</td>
             <td><button class="btn btn-danger" onclick="deleteTeacher(${teacher.id})">Delete</button></td>
             <td><button class="btn btn-warning" onclick="editTeacher(${teacher.id})">Edit</button></td></tr>`;
 }
 
 function displayFormCreateTeacher() {
-    document.getElementById("form").reset()
-    document.getElementById("form").hidden = false;
-    document.getElementById("form-button").onclick = function () {
+    document.getElementById("formTeacher").reset()
+    document.getElementById("formTeacher").hidden = false;
+    document.getElementById("formTeacher-button").onclick = function () {
         addNewTeacher();
     }
     getClasses();
     getAccountTeacher();
 }
-function getAccountTeacher(){
+
+function getAccountTeacher() {
     $.ajax({
         type: "GET",
         //tên API
-        url: `http://localhost:8080/admin/users`,
+        url: `http://localhost:8080/admin/teachers`,
         //xử lý khi thành công
         success: function (data) {
             let content = '<select id="accountTeacher">\n'
@@ -62,11 +64,11 @@ function getAccountTeacher(){
     });
 }
 
-function displayAccount(account){
+function displayAccount(account) {
     return `<option id="${account.id}" value="${account.id}">${account.fullName}</option>`
 }
 
-function getClasses(){
+function getClasses() {
     $.ajax({
         type: "GET",
         //tên API
@@ -101,13 +103,13 @@ function addNewTeacher() {
         account: {
             id: account,
         },
-        classes:{
-            id:classes,
+        classes: {
+            id: classes,
         }
     };
     let data = new FormData();
     data.append("file", $('#imageTeacher')[0].files[0])
-    data.append("json", new Blob([JSON.stringify(newTeacher)],{
+    data.append("json", new Blob([JSON.stringify(newTeacher)], {
         type: "application/json"
     }))
     // goi ajax
@@ -182,7 +184,7 @@ function editTeacher1(id) {
     };
     let data = new FormData;
     data.append("file", $('#image')[0].files[0]);
-    data.append("json", new Blob([JSON.stringify(newTeacher)],{
+    data.append("json", new Blob([JSON.stringify(newTeacher)], {
         type: "application/json"
     }))
     // goi ajax
@@ -237,18 +239,18 @@ function getTeachersByPage(page) {
     });
 }
 
-function displayPage(data){
+function displayPage(data) {
     return `<button class="btn btn-primary" id="backup" onclick="isPrevious(${data.pageable.pageNumber})">Previous</button>
-    <span>${data.pageable.pageNumber+1} | ${data.totalPages}</span>
+    <span>${data.pageable.pageNumber + 1} | ${data.totalPages}</span>
     <button class="btn btn-primary" id="next" onclick="isNext(${data.pageable.pageNumber})">Next</button>`
 }
 
 function isPrevious(pageNumber) {
-    getTeachersByPage(pageNumber-1)
+    getTeachersByPage(pageNumber - 1)
 }
 
 function isNext(pageNumber) {
-    getTeachersByPage(pageNumber+1)
+    getTeachersByPage(pageNumber + 1)
 }
 
 function searchTeacher() {
@@ -279,10 +281,10 @@ function searchTeacher() {
     });
     event.preventDefault();
 }
-function displayManagerTeacher(){
-    document.getElementById("manager-teacher").hidden=false;
-    document.getElementById("manager-user").hidden=true;
-    document.getElementById("manager-student").hidden=true;
+
+function displayManagerTeacher() {
+    document.getElementById("manager-teacher").hidden = false;
+    document.getElementById("manager-user").hidden = true;
     getTeacher();
 }
 
