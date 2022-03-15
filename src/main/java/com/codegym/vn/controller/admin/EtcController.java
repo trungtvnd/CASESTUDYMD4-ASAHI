@@ -1,8 +1,7 @@
-package com.codegym.vn.controller;
+package com.codegym.vn.controller.admin;
 
 import com.codegym.vn.model.Classes;
-import com.codegym.vn.model.Role;
-import com.codegym.vn.service.IClassesService;
+import com.codegym.vn.service.interfaceImpl.IClassesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,7 +1,8 @@
-package com.codegym.vn.service;
+package com.codegym.vn.service.Impl;
 
-import com.codegym.vn.model.Role;
-import com.codegym.vn.repository.IRoleRepository;
+import com.codegym.vn.model.Course;
+import com.codegym.vn.repository.ICourseRepository;
+import com.codegym.vn.service.interfaceImpl.ICourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,17 +10,18 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 @Service
-public class IRoleServiceImp implements IRoleService{
+public class CourseService implements ICourseService {
+
     @Autowired
-    IRoleRepository repository;
+    private ICourseRepository repository;
     @Override
-    public Iterable<Role> findAll() {
+    public Iterable<Course> findAll() {
         return repository.findAll();
     }
 
     @Override
-    public Role save(Role role) {
-        return repository.save(role);
+    public Course save(Course course) {
+        return repository.save(course);
     }
 
     @Override
@@ -28,17 +30,17 @@ public class IRoleServiceImp implements IRoleService{
     }
 
     @Override
-    public Page<Role> findPage(Pageable pageable) {
+    public Page<Course> findPage(Pageable pageable) {
         return repository.findAll(pageable);
     }
 
     @Override
-    public Optional<Role> findById(Long id) {
+    public Optional<Course> findById(Long id) {
         return repository.findById(id);
     }
 
     @Override
-    public Iterable<Role> findByName(String name) {
+    public Iterable<Course> findByName(String name) {
         return repository.findAllByNameContaining(name);
     }
 }

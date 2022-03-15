@@ -1,9 +1,10 @@
-package com.codegym.vn.service;
+package com.codegym.vn.service.Impl;
 
 
 import com.codegym.vn.model.AppUser;
 import com.codegym.vn.model.Role;
 import com.codegym.vn.repository.IAppUserRepository;
+import com.codegym.vn.service.interfaceImpl.IAppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AppUserService implements IAppUserService{
+public class AppUserService implements IAppUserService {
     @Autowired
     private IAppUserRepository repository;
 

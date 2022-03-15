@@ -1,7 +1,7 @@
-package com.codegym.vn.controller;
+package com.codegym.vn.controller.admin;
 
 import com.codegym.vn.model.AppUser;
-import com.codegym.vn.service.IAppUserService;
+import com.codegym.vn.service.interfaceImpl.IAppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

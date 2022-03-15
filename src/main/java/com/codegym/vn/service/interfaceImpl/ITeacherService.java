@@ -1,4 +1,4 @@
-package com.codegym.vn.service;
+package com.codegym.vn.service.interfaceImpl;
 
 import com.codegym.vn.model.Teacher;
 import org.springframework.data.domain.Page;

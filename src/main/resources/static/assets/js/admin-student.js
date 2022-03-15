@@ -1,12 +1,11 @@
-let index = 0;
+let indexStudent = 0;
+let indexStudentAccount = 0;
 
-
-
-function getTeacher() {
+function getStudent() {
     $.ajax({
         type: "GET",
         //tên API
-        url: `http://localhost:8080/admin/teachers`,
+        url: `http://localhost:8080/admin/students`,
         //xử lý khi thành công
         success: function (data) {
             // hien thi danh sach o day
@@ -18,95 +17,126 @@ function getTeacher() {
                 '<th>Email</th>\n' +
                 '<th>Username</th>\n' +
                 '<th>Identify</th>\n' +
+                '<th>Class</th>\n' +
+                '<th>Course</th>\n' +
                 '<th>Picture</th>\n' +
                 '<th colspan="2">Action</th>\n' +
                 '</tr>';
             for (let i = 0; i < data.length; i++) {
-                content += displayTeacher(data[i]);
+                content += displayStudent(data[i]);
             }
-            document.getElementById("teacherList").innerHTML = content;
-            document.getElementById("form").hidden = true;
+            document.getElementById("studentList").innerHTML = content;
+            document.getElementById("formStudent").hidden = true;
         }
     });
 }
-function displayTeacher(teacher) {
-    return `<tr><td>${teacher.appUser.fullName}</td><td>${teacher.appUser.birth}</td>
-            <td>${teacher.gender}</td><td>${teacher.appUser.phoneNumber}</td><td>${teacher.appUser.email}</td><td>${teacher.appUser.username}</td><td>${teacher.appUser.identify}</td><td><img src="${teacher.image}" alt="loi"></td>
-            <td><button class="btn btn-danger" onclick="deleteTeacher(${teacher.id})">Delete</button></td>
-            <td><button class="btn btn-warning" onclick="editTeacher(${teacher.id})">Edit</button></td></tr>`;
+function displayStudent(student) {
+    return `<tr><td>${student.appUser.fullName}</td><td>${student.appUser.birth}</td>
+            <td>${student.gender}</td><td>${student.appUser.phoneNumber}</td>
+            <td>${student.appUser.email}</td><td>${student.appUser.username}</td>
+            <td>${student.appUser.identify}</td> <td>${student.classes.name}</td> <td>${student.course.name}</td>
+            <td><img src="${student.image}" alt="loi"></td>
+            <td><button class="btn btn-danger" onclick="deleteStudent(${student.id})">Delete</button></td>
+            <td><button class="btn btn-warning" onclick="editStudentGet(${student.id})">Edit</button></td></tr>`;
 }
 
-function displayFormCreateTeacher() {
-    document.getElementById("form").reset()
-    document.getElementById("form").hidden = false;
-    document.getElementById("form-button").onclick = function () {
-        addNewTeacher();
+function displayFormCreateStudent() {
+    document.getElementById("formStudent").reset()
+    document.getElementById("formStudent").hidden = false;
+    document.getElementById("form-button-student").onclick = function () {
+        addNewStudent();
     }
-    getClasses();
-    getAccountTeacher();
+    getClassesStudent();
+    getAccountStudent();
+    getCourses();
 }
-function getAccountTeacher(){
+function getAccountStudent(){
     $.ajax({
         type: "GET",
         //tên API
         url: `http://localhost:8080/admin/users`,
         //xử lý khi thành công
         success: function (data) {
-            let content = '<select id="accountTeacher">\n'
+            let content = '<select id="accountStudent">\n'
             for (let i = 0; i < data.length; i++) {
-                content += displayAccount(data[i]);
+                content += displayAccountStudent(data[i]);
             }
             content += '</select>'
-            document.getElementById('div-account').innerHTML = content;
+            document.getElementById('div-account-student').innerHTML = content;
         }
     });
 }
 
-function displayAccount(account){
+function displayAccountStudent(account){
     return `<option id="${account.id}" value="${account.id}">${account.fullName}</option>`
 }
 
-function getClasses(){
+function getClassesStudent(){
     $.ajax({
         type: "GET",
         //tên API
         url: `http://localhost:8080/admin/etc`,
         //xử lý khi thành công
         success: function (data) {
-            let content = '<select id="classesTeacher">\n'
+            let content = '<select id="classesStudent">\n'
             for (let i = 0; i < data.length; i++) {
-                content += displayClasses(data[i]);
+                content += displayClassesStudent(data[i]);
             }
             content += '</select>'
-            document.getElementById('div-classes').innerHTML = content;
+            document.getElementById('div-classes-student').innerHTML = content;
         }
     });
 }
 
-function displayClasses(classes) {
+function displayClassesStudent(classes) {
     return `<option id="${classes.id}" value="${classes.id}">${classes.name}</option>`;
 }
 
-function addNewTeacher() {
-    //lay du lieu
+function getCourses(){
+    $.ajax({
+        type: "GET",
+        //tên API
+        url: `http://localhost:8080/admin/courses`,
+        //xử lý khi thành công
+        success: function (data) {
+            let content = '<select id="courseStudent">\n'
+            for (let i = 0; i < data.length; i++) {
+                content += displayCourse(data[i]);
+            }
+            content += '</select>'
+            document.getElementById('div-course').innerHTML = content;
+        }
+    });
+}
 
-    let name = $('#nameTeacher').val();
-    let gender = $('#genderTeacher').val();
-    let account = $('#accountTeacher').val();
-    let classes = $('#classesTeacher').val();
+function displayCourse(course){
+    return `<option id="${course.id}" value="${course.id}">${course.name}</option>`
+}
+
+function addNewStudent() {
+    //lay du lieu
+    let data = new FormData();
+    let name = $('#nameStudent').val();
+    let gender = $('#genderStudent').val();
+    let account = $('#accountStudent').val();
+    let classes = $('#classesStudent').val();
+    let course = $('#courseStudent').val();
     let newTeacher = {
         name: name,
         gender: gender,
 
-        account: {
+        appUser: {
             id: account,
         },
         classes:{
             id:classes,
+        },
+        course:{
+            id:course
         }
     };
-    let data = new FormData();
-    data.append("file", $('#imageTeacher')[0].files[0])
+
+    data.append("file", $('#imageStudent')[0].files[0])
     data.append("json", new Blob([JSON.stringify(newTeacher)],{
         type: "application/json"
     }))
@@ -117,10 +147,10 @@ function addNewTeacher() {
         processData: false,
         contentType: false,
         //tên API
-        url: "http://localhost:8080/admin/teachers",
+        url: "http://localhost:8080/admin/students",
         //xử lý khi thành công
         success: function () {
-            getTeacher();
+            getStudent();
         }
 
 
@@ -129,41 +159,72 @@ function addNewTeacher() {
     event.preventDefault();
 }
 
-function deleteTeacher(id) {
+function deleteStudent(id) {
     $.ajax({
         type: "DELETE",
         //tên API
-        url: `http://localhost:8080/admin/teachers/${id}`,
+        url: `http://localhost:8080/admin/students/${id}`,
         //xử lý khi thành công
         success: function () {
-            getTeacher()
+            getStudent()
         }
     });
 }
 
-function editTeacher(id) {
+function editStudentGet(id){
+    editStudent(id);
+    editStudentAccount(indexStudentAccount);
+}
+function editStudentAccount(id){
     $.ajax({
         type: "GET",
         //tên API
-        url: `http://localhost:8080/admin/teachers/${id}`,
+        url: `http://localhost:8080/admin/users/${id}`,
+        //xử lý khi thành công
+        success: function (appUser) {
+            $('#userStudentFullName').val(appUser.fullName);
+            $('#userStudentEmail').val(appUser.email);
+            $('#accountStudentName').val(appUser.username);
+            $('#studentPassword').val(appUser.password);
+            $('#studentRePassword').val(appUser.rePassword);
+            $('#studentPhoneNumber').val(appUser.phoneNumber);
+            $('#studentBirth').val(appUser.birth);
+            $('#studentAddress').val(appUser.address);
+            $('#studentIdentify').val(appUser.identify);
+            indexStudent = appUser.id;
+            indexStudentAccount = appUser.appUser.id;
+
+            // document.getElementById("formEditStudent").hidden = false;
+            // document.getElementById("form-button-student-edit").onclick = function () {
+            //     editStudentPost();
+            // }
+        }
+    });
+ getRole();
+}
+function editStudent(id) {
+    $.ajax({
+        type: "GET",
+        //tên API
+        url: `http://localhost:8080/admin/students/${id}`,
         //xử lý khi thành công
         success: function (data) {
-            $('#name').val(data.name);
-            $('#birth').val(data.birth);
-            $('#gender').val(data.gender);
-            $('#phone').val(data.phoneNumber);
-            $('#email').val(data.email);
-            $('#identify').val(data.identify);
-            index = data.id;
-            document.getElementById("form").hidden = false;
-            document.getElementById("form-button").onclick = function () {
-                editTeacher1(index);
+            $('#nameStudentEdit').val(data.name);
+            $('#genderStudentEdit').val(data.gender);
+            indexStudent = data.id;
+            indexStudentAccount = data.appUser.id;
+
+            document.getElementById("formEditStudent").hidden = false;
+            document.getElementById("form-button-student-edit").onclick = function () {
+                editStudentPost();
             }
         }
     });
+    getCourses();
+    getClassesStudent();
 }
 
-function editTeacher1(id) {
+function editStudent1(id) {
     //lay du lieu
 
     let name = $('#name').val();
@@ -200,6 +261,11 @@ function editTeacher1(id) {
     });
     //chặn sự kiện mặc định của thẻ
     event.preventDefault();
+}
+
+
+function editStudentPost(){
+
 }
 
 function getTeachersByPage(page) {
@@ -279,11 +345,11 @@ function searchTeacher() {
     });
     event.preventDefault();
 }
-function displayManagerTeacher(){
-    document.getElementById("manager-teacher").hidden=false;
+function displayManagerStudent(){
+    document.getElementById("manager-student").hidden=false;
     document.getElementById("manager-user").hidden=true;
-    document.getElementById("manager-student").hidden=true;
-    getTeacher();
+    document.getElementById("manager-teacher").hidden=true;
+    getStudent();
 }
 
 
