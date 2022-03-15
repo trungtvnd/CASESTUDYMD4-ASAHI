@@ -132,10 +132,10 @@
     <h1>User List</h1>
 
     <button class="btn btn-primary" onclick="displayFormCreateUser()">Create New User</button>
-    <button class="btn btn-primary" onclick="getUsersByPage(0)">Display By Page</button>
+    <button class="btn btn-primary" onclick="displayPageUser(2)">Display By Page</button>
     <br><br>
 
-    <form id="searchFormUser">
+<!--    <form id="searchFormUser">-->
         <div class="row">
             <div class="col">
                 <label><input type="text" id="searchUser" class="form-control" placeholder="Enter a word"></label>
@@ -144,7 +144,7 @@
                 <button class="btn btn-info" onclick="searchUser()">Search</button>
             </div>
         </div>
-    </form>
+<!--    </form>-->
 
     <div>
         <table id="userList" class="table table-striped"></table>
@@ -198,6 +198,10 @@
 </div>
 
 
+
+
+
+
 <!--Teacher Management-->
 <div class="container" hidden id="manager-teacher">
     <h1>Teacher List</h1>
@@ -206,23 +210,23 @@
     <button class="btn btn-primary" onclick="getTeachersByPage(0)">Display By Page</button>
     <br><br>
 
-    <form id="searchForm">
+<!--    <form id="searchForm">-->
         <div class="row">
             <div class="col">
-                <label><input type="text" id="search" class="form-control" placeholder="Enter a word"></label>
+                <label><input type="text" id="searchTeacher" class="form-control" placeholder="Enter a word"></label>
             </div>
             <div class="col">
                 <button class="btn btn-info" onclick="searchTeacher()">Search</button>
             </div>
         </div>
-    </form>
+<!--    </form>-->
 
     <div>
         <table id="teacherList" class="table table-striped"></table>
         <div id="displayPage"></div>
     </div>
 
-    <form hidden id="form">
+    <form hidden id="formTeacher">
         <div class="mb-3">
             <label class="form-label">Account:</label>
             <div id="div-account"></div>
@@ -246,7 +250,7 @@
             <label for="imageTeacher" class="form-label">Image:</label>
             <input type="file" class="form-control" id="imageTeacher">
         </div>
-        <button type="submit" id="form-button" class="btn btn-primary">Submit</button>
+        <button type="submit" id="formTeacher-button" class="btn btn-primary">Submit</button>
     </form>
 </div>
 
