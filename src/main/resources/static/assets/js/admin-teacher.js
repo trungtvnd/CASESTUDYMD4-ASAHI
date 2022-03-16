@@ -166,8 +166,6 @@ function editTeacher(id) {
 }
 
 function editTeacher1(id) {
-    //lay du lieu
-
     let name = $('#name').val();
     let birth = $('#birth').val();
     let gender = $('#gender').val();
@@ -187,32 +185,25 @@ function editTeacher1(id) {
     data.append("json", new Blob([JSON.stringify(newTeacher)], {
         type: "application/json"
     }))
-    // goi ajax
     $.ajax({
         type: "PUT",
         data: data,
         processData: false,
         contentType: false,
-        //tên API
         url: `http://localhost:8080/admin/teachers/${id}`,
-        //xử lý khi thành công
         success: function () {
             getTeacher();
         }
     });
-    //chặn sự kiện mặc định của thẻ
     event.preventDefault();
 }
 
 function getTeachersByPage(page) {
     $.ajax({
         type: "GET",
-        //tên API
         url: `http://localhost:8080/admin/teachers/page?page=${page}`,
-        //xử lý khi thành công
         success: function (data) {
             let array = data.content
-            // hien thi danh sach o day
             let content = '<tr>\n' +
                 '<th>Name</th>\n' +
                 '<th>Birth</th>\n' +
@@ -282,9 +273,12 @@ function searchTeacher() {
     event.preventDefault();
 }
 
+
+
 function displayManagerTeacher() {
     document.getElementById("manager-teacher").hidden = false;
     document.getElementById("manager-user").hidden = true;
+    document.getElementById("manager-student").hidden = true;
     getTeacher();
 }
 

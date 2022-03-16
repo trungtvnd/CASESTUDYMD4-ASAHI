@@ -34,7 +34,7 @@ public class HomeController {
     @GetMapping("/admin")
     public String admin(Model model){
         model.addAttribute("user", getPrincipal());
-        return "/admin-home1";
+        return "/admin-home";
     }
 
     @GetMapping("/accessDenied")
