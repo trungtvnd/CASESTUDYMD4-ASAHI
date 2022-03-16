@@ -53,7 +53,8 @@ public class AppUserController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<AppUser> editStudent(@RequestPart("json") AppUser appUserEdit,@PathVariable("id") Long id){
+    public ResponseEntity<AppUser> editStudent(@RequestPart("json") AppUser appUserEdit,
+                                               @PathVariable("id") Long id){
         Optional<AppUser> appUser = iAppUserService.findById(id);
         if(!appUser.isPresent()){
             new ResponseEntity<>(HttpStatus.NOT_FOUND);

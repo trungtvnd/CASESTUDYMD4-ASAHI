@@ -26,6 +26,7 @@ function getOfficer() {
             }
             document.getElementById("officerList").innerHTML = content;
             document.getElementById("formOfficer").hidden = true;
+            document.getElementById("formEditOfficer").hidden = true;
         }
     });
 }
@@ -35,10 +36,10 @@ function displayOfficer(officer) {
             <td>${officer.appUser.fullName}</td>
             <td>${officer.appUser.birth}</td>
             <td>${officer.gender}</td>
-              <td>${officer.appUser.phoneNumber}</td>
-              <td>${officer.appUser.email}</td>
-              <td>${officer.appUser.username}</td>
-              <td>${officer.appUser.identify}</td>
+            <td>${officer.appUser.phoneNumber}</td>
+            <td>${officer.appUser.email}</td>
+            <td>${officer.appUser.username}</td>
+            <td>${officer.appUser.identify}</td>
             <td><img src="${officer.image}" alt="loi"></td>
             <td><button class="btn btn-danger" onclick="deleteOfficer(${officer.id})">Delete</button></td>
             <td><button class="btn btn-warning" onclick="editOfficerGet(${officer.id})">Edit</button></td></tr>`;
@@ -53,27 +54,7 @@ function displayFormCreateOfficer() {
     getAccountOfficer();
 }
 
-// function getAccountOfficer() {
-//     $.ajax({
-//         type: "GET",
-//         url: `http://localhost:8080/admin/users`,
-//         success: function (data) {
-//             let content = '<select id="accountOfficer">\n'
-//             for (let i = 0; i < data.length; i++) {
-//                 content += displayAccountOfficer(data[i]);
-//             }
-//             content += '</select>'
-//             document.getElementById('userOfficer').innerHTML = content;
-//         }
-//     });
-// }
-//
-// function displayAccountOfficer(account) {
-//     return `<option id="${account.id}" value="${account.id}">${account.fullName}</option>`
-// }
-
-
-function getAccountOfficer(){
+function getAccountOfficer() {
     $.ajax({
         type: "GET",
         url: `http://localhost:8080/admin/users`,
@@ -88,7 +69,7 @@ function getAccountOfficer(){
     });
 }
 
-function displayAccountOfficer(account){
+function displayAccountOfficer(account) {
     return `<option id="${account.id}" value="${account.id}">${account.fullName}</option>`
 }
 
@@ -107,7 +88,7 @@ function addNewOfficer() {
         },
     };
     data.append("file", $('#imageOfficer')[0].files[0])
-    data.append("json", new Blob([JSON.stringify(newOfficer)],{
+    data.append("json", new Blob([JSON.stringify(newOfficer)], {
         type: "application/json"
     }))
     $.ajax({
@@ -124,19 +105,7 @@ function addNewOfficer() {
     event.preventDefault();
 }
 
-function deleteTeacher(id) {
-    $.ajax({
-        type: "DELETE",
-        //tên API
-        url: `http://localhost:8080/admin/teachers/${id}`,
-        //xử lý khi thành công
-        success: function () {
-            getTeacher()
-        }
-    });
-}
-
-function editOfficerGet(id){
+function editOfficerGet(id) {
     getRoleOfficerEdit();
     getAccountOfficerEdit();
     editOfficer(id);
@@ -156,12 +125,12 @@ function editOfficer(id) {
             $('#genderOfficerEdit').val(data.gender);
             indexOfficer = data.id;
             indexOfficerAccount = data.appUser.id;
-            editStudentAccount(indexOfficerAccount);
+            editOfficerAccount(indexOfficerAccount);
         }
     });
 }
 
-function editStudentAccount(id){
+function editOfficerAccount(id) {
     $.ajax({
         type: "GET",
         url: `http://localhost:8080/admin/users/${id}`,
@@ -180,19 +149,18 @@ function editStudentAccount(id){
 }
 
 
-
 function editOfficer1(id) {
     let name = $('#nameOfficerEdit').val();
     let gender = $('#genderOfficerEdit').val();
-    let account = $('#accountOfficerEdit').val();
+    let appUser = $('#accountOfficerEdit').val();
     let newOfficer = {
         name: name,
         gender: gender,
-        appUser: {id:account},
+        appUser: {id: appUser},
     };
     let data = new FormData;
     data.append("file", $('#imageOfficerEdit')[0].files[0]);
-    data.append("json", new Blob([JSON.stringify(newOfficer)],{
+    data.append("json", new Blob([JSON.stringify(newOfficer)], {
         type: "application/json"
     }))
     $.ajax({
@@ -202,13 +170,13 @@ function editOfficer1(id) {
         contentType: false,
         url: `http://localhost:8080/admin/officers/${id}`,
         success: function () {
-            editOfficerAccount1(indexStudentAccount);
+            editOfficerAccount1(indexOfficerAccount);
         }
     });
     event.preventDefault();
 }
 
-function editOfficerAccount1(id){
+function editOfficerAccount1(id) {
     let fullName = $('#userOfficerFullName').val();
     let email = $('#userOfficerEmail').val();
     let username = $('#accountOfficerUsername').val();
@@ -220,7 +188,7 @@ function editOfficerAccount1(id){
     let identify = $('#officerIdentify').val();
     let role = $('#roleOfficerEdit').val();
 
-    let newUser = {
+    let newUserEdit = {
         fullName: fullName,
         email: email,
         username: username,
@@ -231,14 +199,13 @@ function editOfficerAccount1(id){
         address: address,
         identify: identify,
         role: {
-            id: role
+            id: role,
         },
     };
     let data = new FormData;
-    data.append("json", new Blob([JSON.stringify(newUser)],{
+    data.append("json", new Blob([JSON.stringify(newUserEdit)], {
         type: "application/json"
     }))
-    // goi ajax
     $.ajax({
         type: "PUT",
         data: data,
@@ -304,15 +271,12 @@ function isNext(pageNumber) {
     getTeachersByPage(pageNumber + 1)
 }
 
-function searchTeacher() {
+function searchOficer() {
     let search = document.getElementById("search").value;
     $.ajax({
         type: "GET",
-        //tên API
         url: `http://localhost:8080/admin/teachers/search?search=${search}`,
-        //xử lý khi thành công
         success: function (data) {
-            // hien thi danh sach o day
             let content = '<tr>\n' +
                 '<th>Name</th>\n' +
                 '<th>Birth</th>\n' +
@@ -332,12 +296,11 @@ function searchTeacher() {
     });
     event.preventDefault();
 }
+
 function getRoleOfficerEdit() {
     $.ajax({
         type: "GET",
-        //tên API
         url: `http://localhost:8080/admin/roles`,
-        //xử lý khi thành công
         success: function (data) {
             let content = '<select id="roleOfficerEdit">\n'
             for (let i = 0; i < data.length; i++) {
@@ -373,6 +336,7 @@ function getAccountOfficerEdit() {
 function displayAccountOfficerEdit(account) {
     return `<option id="${account.id}" value="${account.id}">${account.fullName}</option>`;
 }
+
 function displayManagerOfficer() {
     document.getElementById("manager-teacher").hidden = true;
     document.getElementById("manager-user").hidden = true;

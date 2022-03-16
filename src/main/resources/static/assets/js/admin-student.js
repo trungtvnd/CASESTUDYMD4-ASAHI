@@ -261,20 +261,16 @@ function editStudentAccount1(id){
     data.append("json", new Blob([JSON.stringify(newUser)],{
         type: "application/json"
     }))
-    // goi ajax
     $.ajax({
         type: "PUT",
         data: data,
         processData: false,
         contentType: false,
-        //tên API
         url: `http://localhost:8080/admin/users/${id}`,
-        //xử lý khi thành công
         success: function () {
           getStudent();
         }
     });
-    //chặn sự kiện mặc định của thẻ
     event.preventDefault();
 }
 function displayStudentHeard(){
@@ -380,9 +376,7 @@ function searchStudent() {
 function getClassesStudentEdit(){
     $.ajax({
         type: "GET",
-        //tên API
         url: `http://localhost:8080/admin/etc`,
-        //xử lý khi thành công
         success: function (data) {
             let content = '<select id="classesStudentEdit">\n'
             for (let i = 0; i < data.length; i++) {
