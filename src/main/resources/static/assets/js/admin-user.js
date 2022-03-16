@@ -200,6 +200,22 @@ function editUser1(id) {
 
 }
 
+function displayUserHeard(){
+    return`<tr> 
+        <th>Name</th>
+        <th>email</th>
+        <th>username</th>
+        <th> password</th>
+        <th>rePassword;</th>
+        <th>phoneNumber</th>
+        <th>birth</th>
+        <th>address</th>
+        <th>Identify</th>
+        <th>role</th>
+        <th colspan="2">Action</th>
+        </tr>`;
+}
+
 function getUserByPage(page) {
     $.ajax({
         type: "GET",
@@ -207,26 +223,28 @@ function getUserByPage(page) {
         url: `http://localhost:8080/admin/users/page?page=${page}`,
         //xử lý khi thành công
         success: function (data) {
+            // let array = data.content
+            // // hien thi danh sach o day
+            // let content = '<tr>\n' +
+            //     '<th>Name</th>\n' +
+            //     '<th>email</th>\n' +
+            //     '<th>username</th>\n' +
+            //     '<th> password</th>\n' +
+            //     '<th>rePassword;</th>\n' +
+            //     '<th>phoneNumber</th>\n' +
+            //     '<th>birth</th>\n' +
+            //     '<th>address</th>\n' +
+            //     '<th>Identify</th>\n' +
+            //     '<th>role</th>\n' +
+            //     '<th colspan="2">Action</th>\n' +
+            //     '</tr>';
             let array = data.content
-            // hien thi danh sach o day
-            let content = '<tr>\n' +
-                '<th>Name</th>\n' +
-                '<th>email</th>\n' +
-                '<th>username</th>\n' +
-                '<th> password</th>\n' +
-                '<th>rePassword;</th>\n' +
-                '<th>phoneNumber</th>\n' +
-                '<th>birth</th>\n' +
-                '<th>address</th>\n' +
-                '<th>Identify</th>\n' +
-                '<th>role</th>\n' +
-                '<th colspan="2">Action</th>\n' +
-                '</tr>';
+            let content = displayUserHeard()
             for (let i = 0; i < array.length; i++) {
                 content += displayUser(array[i]);
             }
             document.getElementById("userList").innerHTML = content;
-            document.getElementById("displayPageUser").innerHTML = displayPage(data)
+            document.getElementById("displayPageUser").innerHTML = displayPageUser(data)
             document.getElementById("formUser").hidden = true;
             if (data.pageable.pageNumber === 0) {
                 document.getElementById("backup").hidden = true
@@ -299,7 +317,7 @@ function deleteUser(id) {
 
 
 function displayManagerUser(){
-    document.getElementById("manager-teacher").hidden=true;
+    // document.getElementById("manager-teacher").hidden=true;
     document.getElementById("manager-user").hidden=false;
     getUser();
 }
