@@ -277,33 +277,50 @@ function editStudentAccount1(id){
     //chặn sự kiện mặc định của thẻ
     event.preventDefault();
 }
+function displayStudentHeard(){
+   return` <tr>
+    <th>Full Name</th>
+    <th>Birth</th>
+    <th>Gender</th>
+    <th>Phone Number</th>
+    <th>Email</th>
+    <th>Username</th>
+    <th>Identify</th>
+    <th>Class</th>
+    <th>Course</th>
+    <th>Picture</th>
+    <th colspan="2">Action</th>
+    </tr>`;
+}
 
 
-function getTeachersByPage(page) {
+function getStudentByPage(page) {
     $.ajax({
         type: "GET",
         //tên API
-        url: `http://localhost:8080/admin/teachers/page?page=${page}`,
+        url: `http://localhost:8080/admin/students/page?page=${page}`,
         //xử lý khi thành công
         success: function (data) {
-            let array = data.content
-            // hien thi danh sach o day
-            let content = '<tr>\n' +
-                '<th>Name</th>\n' +
-                '<th>Birth</th>\n' +
-                '<th>Gender</th>\n' +
-                '<th>Phone Number</th>\n' +
-                '<th>Email</th>\n' +
-                '<th>Identify</th>\n' +
-                '<th>Picture</th>\n' +
-                '<th colspan="2">Action</th>\n' +
-                '</tr>';
+            // let array = data.content
+            // // hien thi danh sach o day
+            // let content = '<tr>\n' +
+            //     '<th>Name</th>\n' +
+            //     '<th>Birth</th>\n' +
+            //     '<th>Gender</th>\n' +
+            //     '<th>Phone Number</th>\n' +
+            //     '<th>Email</th>\n' +
+            //     '<th>Identify</th>\n' +
+            //     '<th>Picture</th>\n' +
+            //     '<th colspan="2">Action</th>\n' +
+            //     '</tr>';
+            let  array = data.content
+            let  content = displayStudentHeard();
             for (let i = 0; i < array.length; i++) {
-                content += displayTeacher(array[i]);
+                content += displayStudent(array[i]);
             }
-            document.getElementById("teacherList").innerHTML = content;
-            document.getElementById("displayPage").innerHTML = displayPage(data)
-            document.getElementById("form").hidden = true;
+            document.getElementById("studentList").innerHTML = content;
+            document.getElementById("displayPageStudent").innerHTML = displayPageStudent(data)
+            document.getElementById("formStudent").hidden = true;
             if (data.pageable.pageNumber === 0) {
                 document.getElementById("backup").hidden = true
             }
@@ -314,44 +331,47 @@ function getTeachersByPage(page) {
     });
 }
 
-function displayPage(data){
+function displayPageStudent(data){
     return `<button class="btn btn-primary" id="backup" onclick="isPrevious(${data.pageable.pageNumber})">Previous</button>
     <span>${data.pageable.pageNumber+1} | ${data.totalPages}</span>
     <button class="btn btn-primary" id="next" onclick="isNext(${data.pageable.pageNumber})">Next</button>`
 }
 
 function isPrevious(pageNumber) {
-    getTeachersByPage(pageNumber-1)
+    getStudentByPage(pageNumber-1)
 }
 
 function isNext(pageNumber) {
-    getTeachersByPage(pageNumber+1)
+    getStudentByPage(pageNumber+1)
 }
 
-function searchTeacher() {
-    let search = document.getElementById("search").value;
+function searchStudent() {
+    let searchStudent = document.getElementById("searchStudent").value;
     $.ajax({
         type: "GET",
         //tên API
-        url: `http://localhost:8080/admin/teachers/search?search=${search}`,
+        url: `http://localhost:8080/admin/students/search?search=${searchStudent}`,
         //xử lý khi thành công
         success: function (data) {
             // hien thi danh sach o day
             let content = '<tr>\n' +
-                '<th>Name</th>\n' +
+                '<th>Full Name</th>\n' +
                 '<th>Birth</th>\n' +
                 '<th>Gender</th>\n' +
                 '<th>Phone Number</th>\n' +
                 '<th>Email</th>\n' +
+                '<th>Username</th>\n' +
                 '<th>Identify</th>\n' +
+                '<th>Class</th>\n' +
+                '<th>Course</th>\n' +
                 '<th>Picture</th>\n' +
                 '<th colspan="2">Action</th>\n' +
                 '</tr>';
             for (let i = 0; i < data.length; i++) {
-                content += displayTeacher(data[i]);
+                content += displayStudent(data[i]);
             }
-            document.getElementById('teacherList').innerHTML = content;
-            document.getElementById("searchForm").reset()
+            document.getElementById('studentList').innerHTML = content;
+            // document.getElementById("searchForm").reset()
         }
     });
     event.preventDefault();
