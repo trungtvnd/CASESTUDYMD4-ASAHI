@@ -1,4 +1,4 @@
-package com.codegym.vn.controller;
+package com.codegym.vn.controller.admin;
 
 
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,7 +34,7 @@ public class HomeController {
     @GetMapping("/admin")
     public String admin(Model model){
         model.addAttribute("user", getPrincipal());
-        return "/admin-home";
+        return "/admin-home1";
     }
 
     @GetMapping("/accessDenied")

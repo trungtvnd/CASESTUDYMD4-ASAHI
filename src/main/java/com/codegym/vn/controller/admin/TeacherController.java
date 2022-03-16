@@ -1,7 +1,7 @@
-package com.codegym.vn.controller;
+package com.codegym.vn.controller.admin;
 
 import com.codegym.vn.model.Teacher;
-import com.codegym.vn.service.ITeacherService;
+import com.codegym.vn.service.interfaceImpl.ITeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;

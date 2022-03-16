@@ -1,7 +1,8 @@
-package com.codegym.vn.service;
+package com.codegym.vn.service.Impl;
 
 import com.codegym.vn.model.Teacher;
 import com.codegym.vn.repository.ITeacherRepository;
+import com.codegym.vn.service.interfaceImpl.ITeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
