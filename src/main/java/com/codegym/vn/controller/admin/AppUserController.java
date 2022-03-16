@@ -44,6 +44,8 @@ public class AppUserController {
         }
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
+
+
     @PostMapping
     public ResponseEntity<AppUser> createAppUser(@RequestPart("json") AppUser appUser){
         AppUser appUser1 = iAppUserService.save(appUser);
