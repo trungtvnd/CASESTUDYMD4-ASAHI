@@ -49,7 +49,7 @@ public class StudentController {
     }
 
     @GetMapping("/page")
-    public ResponseEntity<Page<Student>> showPage(@PageableDefault(value = 3) Pageable pageable) {
+    public ResponseEntity<Page<Student>> showPage(@PageableDefault(value = 2) Pageable pageable) {
         Page<Student> students = iStudentService.findPage(pageable);
         if (!students.iterator().hasNext()) {
             new ResponseEntity<>(HttpStatus.NO_CONTENT);
