@@ -446,6 +446,7 @@ function displayManagerStudent(){
     document.getElementById("manager-student").hidden=false;
     document.getElementById("manager-user").hidden=true;
     document.getElementById("manager-teacher").hidden=true;
+    document.getElementById("manager-officer").hidden=true;
     getStudent();
 }
 
