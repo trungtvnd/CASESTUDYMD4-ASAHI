@@ -25,11 +25,11 @@ public class AppUserService implements IAppUserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        AppUser appUser = repository.findByUsername(username);
+        Optional<AppUser> appUser = repository.findByUsername(username);
         List<Role> roles = new ArrayList<>();
-        roles.add(appUser.getRole());
+        roles.add(appUser.get().getRole());
 
-        return new User(appUser.getUsername(), appUser.getPassword(),roles);
+        return new User(appUser.get().getUsername(), appUser.get().getPassword(),roles);
     }
 
     @Override
@@ -61,4 +61,10 @@ public class AppUserService implements IAppUserService {
     public Iterable<AppUser> findByName(String name) {
         return repository.findAllByUsernameContaining(name);
     }
+
+    @Override
+    public Optional<AppUser> findByUsername(String username) {
+        return repository.findByUsername(username);
+    }
+
 }

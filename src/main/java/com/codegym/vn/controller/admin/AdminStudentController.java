@@ -1,7 +1,6 @@
 package com.codegym.vn.controller.admin;
 
 import com.codegym.vn.model.Student;
-import com.codegym.vn.model.Teacher;
 import com.codegym.vn.service.interfaceImpl.IStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,7 +20,7 @@ import java.util.Optional;
 @RestController
 @CrossOrigin("*")
 @RequestMapping("admin/students")
-public class StudentController {
+public class AdminStudentController {
     @Value("${upload.path}")
     private String upload;
 
@@ -67,6 +66,7 @@ public class StudentController {
         }
         student.setImage(render + fileName);
         Student studentCreate = iStudentService.save(student);
+
         return new ResponseEntity<>(studentCreate, HttpStatus.CREATED);
     }
 

@@ -20,4 +20,7 @@ public interface IAppUserService extends UserDetailsService {
     Optional<AppUser> findById(Long id);
 
     Iterable<AppUser>findByName(String name);
+
+    Optional<AppUser> findByUsername(String username);
+
 }

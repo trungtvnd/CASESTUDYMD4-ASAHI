@@ -49,6 +49,11 @@ public class AppUserController {
     @PostMapping
     public ResponseEntity<AppUser> createAppUser(@RequestPart("json") AppUser appUser){
         AppUser appUser1 = iAppUserService.save(appUser);
+//        SimpleMailMessage message = new SimpleMailMessage();
+//        message.setTo(signUp.getEmail());
+//        message.setSubject("Sign up account confirm email");
+//        message.setText("Hello, Im testing Simple Email! Sign up success with account: " + signUp.getAccount());
+//        this.mailSender.send(message);
         return new ResponseEntity<>(appUser1,HttpStatus.OK);
     }
 

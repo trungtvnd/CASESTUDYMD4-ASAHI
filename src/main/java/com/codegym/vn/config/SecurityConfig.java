@@ -19,13 +19,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/home/**","/","static/assets/**"
                      ).permitAll()
                 .and()
-                .authorizeRequests().antMatchers("/teacher**").hasRole("TEACHER")
+                .authorizeRequests().antMatchers("/teachers**").hasRole("TEACHER")
+
                 .and()
-                .authorizeRequests().antMatchers("/student**").hasRole("STUDENT")
-                .and()
-                .authorizeRequests().antMatchers("/officer**").hasRole("OFFICER ")
+                .authorizeRequests().antMatchers("/officers**").hasRole("OFFICER ")
                 .and()
                 .authorizeRequests().antMatchers("/admin**").hasRole("ADMIN")
+                .and()
+                .authorizeRequests().antMatchers("/students**").hasRole("STUDENT")
                 .and().formLogin().permitAll().successHandler(new CustomSuccessHandler())
                 .and().logout()
                 .and().csrf().disable()

@@ -1,7 +1,6 @@
 package com.codegym.vn.controller.admin;
 
 import com.codegym.vn.model.Officer;
-import com.codegym.vn.model.Teacher;
 import com.codegym.vn.service.interfaceImpl.IOfficerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,13 +15,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.OffsetDateTime;
 import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
 @RequestMapping("admin/officers")
-public class OfficerController {
+public class AdminOfficerController {
     @Autowired
     private IOfficerService iOfficerService;
     @Value("${upload.path}")

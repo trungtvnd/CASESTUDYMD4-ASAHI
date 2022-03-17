@@ -36,7 +36,7 @@ public class CourseController {
     }
 
     @PostMapping
-    public ResponseEntity<Course> createCourse(@RequestBody Course course) {
+    public ResponseEntity<Course> createCourse(@RequestPart("json") Course course) {
         Course courseCreate = iCourseService.save(course);
         return new ResponseEntity<>(courseCreate, HttpStatus.CREATED);
     }

@@ -43,4 +43,9 @@ public class StudentService implements IStudentService {
     public Iterable<Student> findByName(String name) {
         return repository.findAllByNameContaining(name);
     }
+
+    @Override
+    public Optional<Student> findStudentByAppUserId(Long id) {
+        return repository.findByAppUser_Id(id);
+    }
 }
