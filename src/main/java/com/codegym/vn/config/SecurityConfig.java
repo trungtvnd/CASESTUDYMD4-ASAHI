@@ -21,12 +21,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests().antMatchers("/teacher**").hasRole("TEACHER")
                 .and()
+                .authorizeRequests().antMatchers("/student**").hasRole("STUDENT")
+                .and()
+                .authorizeRequests().antMatchers("/officer**").hasRole("OFFICER ")
+                .and()
                 .authorizeRequests().antMatchers("/admin**").hasRole("ADMIN")
                 .and().formLogin().permitAll().successHandler(new CustomSuccessHandler())
                 .and().logout()
                 .and().csrf().disable()
                 .exceptionHandling().accessDeniedPage("/accessDenied");
-
     }
 
     @Override

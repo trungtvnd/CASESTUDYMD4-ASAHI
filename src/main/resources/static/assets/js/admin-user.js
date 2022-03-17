@@ -320,6 +320,8 @@ function displayManagerUser(){
     // document.getElementById("manager-teacher").hidden=true;
     document.getElementById("manager-user").hidden=false;
     document.getElementById("manager-student").hidden=true;
+    document.getElementById("manager-teacher").hidden=true;
+    document.getElementById("manager-officer").hidden=true;
     getUser();
 }
 
