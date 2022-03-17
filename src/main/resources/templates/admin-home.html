@@ -22,19 +22,20 @@
     <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+          rel="stylesheet">
 
     <!-- Vendor CSS Files -->
-<!--    <link href="assets/vendor/animate.css/animate.min.css" rel="stylesheet">-->
-<!--    <link href="assets/vendor/aos/aos.css" rel="stylesheet">-->
-<!--    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">-->
-<!--    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">-->
-<!--    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">-->
-<!--    <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">-->
-<!--    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">-->
+    <!--    <link href="assets/vendor/animate.css/animate.min.css" rel="stylesheet">-->
+    <!--    <link href="assets/vendor/aos/aos.css" rel="stylesheet">-->
+    <!--    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">-->
+    <!--    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">-->
+    <!--    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">-->
+    <!--    <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">-->
+    <!--    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">-->
 
     <!-- Template Main CSS File -->
-<!--    <link href="assets/css/style.css" rel="stylesheet">-->
+    <!--    <link href="assets/css/style.css" rel="stylesheet">-->
 
     <!-- =======================================================
     * Template Name: Mentor - v4.7.0
@@ -45,7 +46,7 @@
 
     <style>
 
-        img{
+        img {
             width: 60px;
             height: 80px;
         }
@@ -63,8 +64,7 @@
     <script th:src="@{assets/js/admin-student.js}"></script>
 
     <!--    <script th:src="@{static/assets/js/admin-teacher.js}"></script>-->
-<!--    <script src="../static/assets/js/admin-user.js"></script> -->
-
+    <!--    <script src="../static/assets/js/admin-user.js"></script> -->
 
 
     <!-- =======================================================
@@ -137,16 +137,15 @@
     <button class="btn btn-primary" onclick="getUserByPage(0)">Display By Page</button>
     <br><br>
 
-<!--    <form id="searchFormUser">-->
-        <div class="row">
-            <div class="col">
-                <label><input type="text" id="searchUser" class="form-control" placeholder="Enter a word"></label>
-            </div>
-            <div class="col">
-                <button class="btn btn-info" onclick="searchUser()">Search</button>
-            </div>
+
+    <div class="row">
+        <div class="col">
+            <label><input type="text" id="searchUser" class="form-control" placeholder="Enter a word"></label>
         </div>
-<!--    </form>-->
+        <div class="col">
+            <button class="btn btn-info" onclick="searchUser()">Search</button>
+        </div>
+    </div>
 
     <div>
         <table id="userList" class="table table-striped"></table>
@@ -200,10 +199,6 @@
 </div>
 
 
-
-
-
-
 <!--Teacher Management-->
 <div class="container" hidden id="manager-teacher">
     <h1>Teacher List</h1>
@@ -212,32 +207,28 @@
     <button class="btn btn-primary" onclick="getTeachersByPage(0)">Display By Page</button>
 
 
-<!--    <form id="searchForm">-->
-        <div class="row">
-            <div class="col">
-                <label><input type="text" id="searchTeacher" class="form-control" placeholder="Enter a word"></label>
-            </div>
-            <div class="col">
-                <button class="btn btn-info" onclick="searchTeacher()">Search</button>
-            </div>
+    <!--    <form id="searchForm">-->
+    <div class="row">
+        <div class="col">
+            <label><input type="text" id="searchTeacher" class="form-control" placeholder="Enter a word"></label>
         </div>
-<!--    </form>-->
+        <div class="col">
+            <button class="btn btn-info" onclick="searchTeacher()">Search</button>
+        </div>
+    </div>
+    <!--    </form>-->
 
     <div>
         <table id="teacherList" class="table table-striped"></table>
         <div id="displayPage"></div>
     </div>
-<h1>h1</h1>
     <form hidden id="formTeacher">
-<!--        <div class="mb-3">-->
-<!--            <label class="form-label">Account:</label>-->
-<!--            <div id="div-account"></div>-->
-<!--        </div>-->
+        <!--        <div class="mb-3">-->
+        <!--            <label class="form-label">Account:</label>-->
+        <!--            <div id="div-account"></div>-->
+        <!--        </div>-->
 
-        <div class="mb-3">
-            <label for="appUserName" class="form-label">AcountName</label>
-            <input type="text" class="form-control" id="appUserName">
-        </div>
+
         <div class="mb-3 mt-3">
             <label for="nameTeacher" class="form-label">Name:</label>
             <input type="text" class="form-control" id="nameTeacher" placeholder="Enter name" required>
@@ -252,7 +243,8 @@
         <div class="mb-3">
             <label class="form-label">Classes:</label>
             <div id="div-classes"></div>
-        </div> <div class="mb-3">
+        </div>
+        <div class="mb-3">
             <label class="form-label">AppUser:</label>
             <div id="userTeacher"></div>
         </div>
@@ -265,7 +257,6 @@
 </div>
 
 
-<!--student-->
 <div class="container" hidden id="manager-student">
     <h1>Student List</h1>
 
@@ -273,16 +264,14 @@
     <button class="btn btn-primary" onclick="getStudentByPage(0)">Display By Page</button>
     <br><br>
 
-<!--    <form id="searchFormStudent">-->
-        <div class="row">
-            <div class="col">
-                <label><input type="text" id="searchStudent" class="form-control" placeholder="Enter a word"></label>
-            </div>
-            <div class="col">
-                <button class="btn btn-info" onclick="searchStudent()">Search</button>
-            </div>
+    <div class="row">
+        <div class="col">
+            <label><input type="text" id="searchStudent" class="form-control" placeholder="Enter a word"></label>
         </div>
-<!--    </form>-->
+        <div class="col">
+            <button class="btn btn-info" onclick="searchStudent()">Search</button>
+        </div>
+    </div>
 
     <div>
         <table id="studentList" class="table table-striped"></table>
@@ -392,9 +381,6 @@
         <button type="submit" id="form-button-student-edit" class="btn btn-primary">Submit</button>
     </form>
 </div>
-
-
-
 
 
 <footer id="footer">

@@ -10,7 +10,7 @@ function getTeacher() {
         success: function (data) {
             // hien thi danh sach o day
             let content = '<tr>\n' +
-                '<th>Full Name</th>\n' +
+                '<th>name</th>\n' +
                 '<th>Gender</th>\n' +
                 '<th>AppUser</th>\n' +
                 '<th>img</th>\n' +
@@ -27,14 +27,16 @@ function getTeacher() {
 }
 
 function displayTeacher(teacher) {
-    // return `<tr>
-    //         <td>${teacher.name}</td>
-    //         <td>${teacher.gender}</td>
-    //           <td>${teacher.user.name}</td>
-    //         <td><img src="${teacher.image}" alt="loi"></td>
-    //         <td>${teacher.classes}</td>
-    //         <td><button class="btn btn-danger" onclick="deleteTeacher(${teacher.id})">Delete</button></td>
-    //         <td><button class="btn btn-warning" onclick="editTeacher(${teacher.id})">Edit</button></td></tr>`;
+    return `<tr>
+            <td>${teacher.name}</td>
+            <td>${teacher.gender}</td>
+              <td>${teacher.appUser.fullName}</td>
+            <td><img src="${teacher.image}" alt="loi"></td>
+            <td>${teacher.classes.name}</td>
+            
+         
+            <td><button class="btn btn-danger" onclick="deleteTeacher(${teacher.id})">Delete</button></td>
+            <td><button class="btn btn-warning" onclick="editTeacher(${teacher.id})">Edit</button></td></tr>`;
 }
 
 function displayFormCreateTeacher() {
@@ -117,20 +119,15 @@ function addNewTeacher() {
 
     let name = $('#nameTeacher').val();
     let gender = $('#genderTeacher').val();
-    let appUser =$('#userTeacher')
-    let account = $('#accountTeacher').val();
+    let appUser = $('#userTeacher')
     let classes = $('#classesTeacher').val();
     let newTeacher = {
         name: name,
         gender: gender,
-
-        account: {
-            id: account,
-        },
         classes: {
             id: classes,
         },
-        appUser:{
+        appUser: {
             id: appUser
         }
 
@@ -152,8 +149,6 @@ function addNewTeacher() {
         success: function () {
             getTeacher();
         }
-
-
     });
     //chặn sự kiện mặc định của thẻ
     event.preventDefault();
@@ -178,15 +173,14 @@ function editTeacher(id) {
         url: `http://localhost:8080/admin/teachers/${id}`,
         //xử lý khi thành công
         success: function (data) {
-            $('#name').val(data.name);
-            $('#birth').val(data.birth);
-            $('#gender').val(data.gender);
-            $('#phone').val(data.phoneNumber);
-            $('#email').val(data.email);
-            $('#identify').val(data.identify);
+            $('#nameTeacher').val(data.name);
+            $('#genderTeacher').val(data.gender);
+            $('#userTeacher').val(data.appUser);
+            $('imageTeacher').val(data.img);
+            $('#div-classes').val(data.classes);
             index = data.id;
-            document.getElementById("form").hidden = false;
-            document.getElementById("form-button").onclick = function () {
+            document.getElementById("formTeacher").hidden = false;
+            document.getElementById("formTeacher-button").onclick = function () {
                 editTeacher1(index);
             }
         }
@@ -197,18 +191,13 @@ function editTeacher1(id) {
     //lay du lieu
 
     let name = $('#name').val();
-    let birth = $('#birth').val();
     let gender = $('#gender').val();
-    let phoneNumber = $('#phone').val();
-    let email = $('#email').val();
-    let identify = $('#identify').val();
+    let user = $('#userTeacher').val();
+let     classes = $('#div-classes').val();
     let newTeacher = {
         name: name,
-        birth: birth,
         gender: gender,
-        phoneNumber: phoneNumber,
-        email: email,
-        identify: identify
+        user: user,
     };
     let data = new FormData;
     data.append("file", $('#image')[0].files[0]);
@@ -243,11 +232,10 @@ function getTeachersByPage(page) {
             // hien thi danh sach o day
             let content = '<tr>\n' +
                 '<th>Name</th>\n' +
-                '<th>Birth</th>\n' +
+                '<th>Name</th>\n' +
                 '<th>Gender</th>\n' +
-                '<th>Phone Number</th>\n' +
-                '<th>Email</th>\n' +
-                '<th>Identify</th>\n' +
+                '<th>User</th>\n' +
+                '<th>Classes</th>\n' +
                 '<th>Picture</th>\n' +
                 '<th colspan="2">Action</th>\n' +
                 '</tr>';
@@ -255,7 +243,7 @@ function getTeachersByPage(page) {
                 content += displayTeacher(array[i]);
             }
             document.getElementById("teacherList").innerHTML = content;
-            document.getElementById("displayPage").innerHTML = displayPage(data)
+            document.getElementById("displayPageTeacher").innerHTML = displayPageTeacher(data)
             document.getElementById("formTeacher").hidden = true;
             if (data.pageable.pageNumber === 0) {
                 document.getElementById("backup").hidden = true
@@ -267,7 +255,7 @@ function getTeachersByPage(page) {
     });
 }
 
-function displayPage(data) {
+function displayPageTeacher(data) {
     return `<button class="btn btn-primary" id="backup" onclick="isPrevious(${data.pageable.pageNumber})">Previous</button>
     <span>${data.pageable.pageNumber + 1} | ${data.totalPages}</span>
     <button class="btn btn-primary" id="next" onclick="isNext(${data.pageable.pageNumber})">Next</button>`
@@ -282,21 +270,20 @@ function isNext(pageNumber) {
 }
 
 function searchTeacher() {
-    let search = document.getElementById("search").value;
+    let searchTeacher = document.getElementById("searchTeacher").value;
     $.ajax({
         type: "GET",
         //tên API
-        url: `http://localhost:8080/admin/teachers/search?search=${search}`,
+        url: `http://localhost:8080/admin/teachers/search?search=${searchTeacher()}`,
         //xử lý khi thành công
         success: function (data) {
             // hien thi danh sach o day
             let content = '<tr>\n' +
                 '<th>Name</th>\n' +
-                '<th>Birth</th>\n' +
+                '<th>Name</th>\n' +
                 '<th>Gender</th>\n' +
-                '<th>Phone Number</th>\n' +
-                '<th>Email</th>\n' +
-                '<th>Identify</th>\n' +
+                '<th>User</th>\n' +
+                '<th>Classes</th>\n' +
                 '<th>Picture</th>\n' +
                 '<th colspan="2">Action</th>\n' +
                 '</tr>';
@@ -304,7 +291,7 @@ function searchTeacher() {
                 content += displayTeacher(data[i]);
             }
             document.getElementById('teacherList').innerHTML = content;
-            document.getElementById("searchForm").reset()
+            document.getElementById("searchTeacher").reset()
         }
     });
     event.preventDefault();
@@ -312,7 +299,8 @@ function searchTeacher() {
 
 function displayManagerTeacher() {
     document.getElementById("manager-teacher").hidden = false;
-    document.getElementById("manager-user").hidden = true;
+    // document.getElementById("manager-user").hidden = true;
+    // document.getElementById("manager-student").hidden = true;
     getTeacher();
 }
 
