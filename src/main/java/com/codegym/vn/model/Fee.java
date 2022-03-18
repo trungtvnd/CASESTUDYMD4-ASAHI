@@ -11,6 +11,7 @@ public class Fee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private double feeStudent;
     @OneToOne
     private Student student;
 

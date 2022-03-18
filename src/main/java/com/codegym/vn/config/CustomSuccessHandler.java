@@ -46,12 +46,16 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             roles.add(a.getAuthority());
         }
 
-     if (isAdmin(roles)) {
+        if (isAdmin(roles)) {
             //Nếu là tài khoản đăng nhập có role là ADMIN thì điều hướng đến /admin
             url = "/admin";
-        } else if (isUser(roles)) {
+        } else if (isStudent(roles)) {
             //Nếu là tài khoản đăng nhập có role là USER thì điều hướng đến /home
-            url = "/user";
+            url = "/students";
+        } else if (isOfficer(roles)) {
+            url = "/officers";
+        }else if (isTeacher(roles)) {
+            url = "/teachers";
         } else {
             //Nếu tài khoản đăng nhập không có quyền truy cập sẽ điều hướng tới /accessDenied
             url = "/accessDenied";
@@ -60,8 +64,8 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         return url;
     }
 
-    private boolean isUser(List<String> roles) {
-        if (roles.contains("ROLE_USER")) {
+    private boolean isStudent(List<String> roles) {
+        if (roles.contains("ROLE_STUDENT")) {
             return true;
         }
         return false;
@@ -73,6 +77,21 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         }
         return false;
     }
+
+    private boolean isTeacher(List<String> roles) {
+        if (roles.contains("ROLE_TEACHER")) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isOfficer(List<String> roles) {
+        if (roles.contains("ROLE_OFFICER")) {
+            return true;
+        }
+        return false;
+    }
+
 
 
     public void setRedirectStrategy(RedirectStrategy redirectStrategy) {

@@ -44,6 +44,7 @@ public class HomeController {
         model.addAttribute("user", getPrincipal());
         return "/template-home/user";
     }
+
     @GetMapping("/students")
     public ModelAndView students(){
         ModelAndView modelAndView = new ModelAndView("student-home");
@@ -63,7 +64,7 @@ public class HomeController {
     @GetMapping("/accessDenied")
     public String accessDeniedPage(ModelMap model) {
         model.addAttribute("user", getPrincipal());
-        return "/template-home/access-denied";
+        return "/access-denied";
     }
 
 
