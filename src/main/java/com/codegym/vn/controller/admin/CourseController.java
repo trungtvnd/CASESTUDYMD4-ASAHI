@@ -1,8 +1,12 @@
 package com.codegym.vn.controller.admin;
 
+import com.codegym.vn.model.AppUser;
 import com.codegym.vn.model.Course;
 import com.codegym.vn.service.interfaceImpl.ICourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +28,15 @@ public class CourseController {
         }
         return new ResponseEntity<>(courses, HttpStatus.OK);
     }
+    @GetMapping("/page")
+    public ResponseEntity<Page<Course>> showPage(@PageableDefault(value =2) Pageable pageable) {
+        Page<Course> courses = iCourseService.findPage(pageable);
+        if (!courses.iterator().hasNext()) {
+            new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(courses, HttpStatus.OK);
+    }
+
 
     @DeleteMapping("{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Long id) {
@@ -50,5 +63,14 @@ public class CourseController {
         course.setId(courseOptional.get().getId());
         course = iCourseService.save(course);
         return new ResponseEntity<>(course, HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public  ResponseEntity<Iterable<Course>> showAllByName(@RequestParam("search") String search){
+        Iterable<Course> courses = iCourseService.findByName(search);
+        if(!courses.iterator().hasNext()){
+            new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(courses,HttpStatus.OK);
     }
 }

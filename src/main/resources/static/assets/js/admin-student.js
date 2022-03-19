@@ -164,7 +164,7 @@ function addNewStudent() {
         contentType: false,
         url: "http://localhost:8080/admin/students",
         success: function () {
-            getStudent();
+            getStudentByPage(0);
         }
 
     });
@@ -174,11 +174,9 @@ function addNewStudent() {
 function deleteStudent(id) {
     $.ajax({
         type: "DELETE",
-        //tên API
         url: `http://localhost:8080/admin/students/${id}`,
-        //xử lý khi thành công
         success: function () {
-            getStudent()
+            getStudentByPage(0)
         }
     });
 }
@@ -297,7 +295,7 @@ function editStudentAccount1(id){
         contentType: false,
         url: `http://localhost:8080/admin/users/${id}`,
         success: function () {
-          getStudent();
+          getStudentByPage(0);
         }
     });
     event.preventDefault();
@@ -322,22 +320,8 @@ function displayStudentHeard(){
 function getStudentByPage(page) {
     $.ajax({
         type: "GET",
-        //tên API
         url: `http://localhost:8080/admin/students/page?page=${page}`,
-        //xử lý khi thành công
         success: function (data) {
-            // let array = data.content
-            // // hien thi danh sach o day
-            // let content = '<tr>\n' +
-            //     '<th>Name</th>\n' +
-            //     '<th>Birth</th>\n' +
-            //     '<th>Gender</th>\n' +
-            //     '<th>Phone Number</th>\n' +
-            //     '<th>Email</th>\n' +
-            //     '<th>Identify</th>\n' +
-            //     '<th>Picture</th>\n' +
-            //     '<th colspan="2">Action</th>\n' +
-            //     '</tr>';
             let  array = data.content
             let  content = displayStudentHeard();
             for (let i = 0; i < array.length; i++) {
@@ -347,26 +331,26 @@ function getStudentByPage(page) {
             document.getElementById("displayPageStudent").innerHTML = displayPageStudent(data)
             document.getElementById("formStudent").hidden = true;
             if (data.pageable.pageNumber === 0) {
-                document.getElementById("backup").hidden = true
+                document.getElementById("backupStudent").hidden = true
             }
             if (data.pageable.pageNumber + 1 === data.totalPages) {
-                document.getElementById("next").hidden = true
+                document.getElementById("nextStudent").hidden = true
             }
         }
     });
 }
 
 function displayPageStudent(data){
-    return `<button class="btn btn-primary" id="backup" onclick="isPrevious(${data.pageable.pageNumber})">Previous</button>
+    return `<button class="btn btn-primary" id="backupStudent" onclick="isPreviousStudent(${data.pageable.pageNumber})">Previous</button>
     <span>${data.pageable.pageNumber+1} | ${data.totalPages}</span>
-    <button class="btn btn-primary" id="next" onclick="isNext(${data.pageable.pageNumber})">Next</button>`
+    <button class="btn btn-primary" id="nextStudent" onclick="isNextStudent(${data.pageable.pageNumber})">Next</button>`
 }
 
-function isPrevious(pageNumber) {
+function isPreviousStudent(pageNumber) {
     getStudentByPage(pageNumber-1)
 }
 
-function isNext(pageNumber) {
+function isNextStudent(pageNumber) {
     getStudentByPage(pageNumber+1)
 }
 
@@ -374,11 +358,8 @@ function searchStudent() {
     let searchStudent = document.getElementById("searchStudent").value;
     $.ajax({
         type: "GET",
-        //tên API
         url: `http://localhost:8080/admin/students/search?search=${searchStudent}`,
-        //xử lý khi thành công
         success: function (data) {
-            // hien thi danh sach o day
             let content = '<tr>\n' +
                 '<th>Full Name</th>\n' +
                 '<th>Birth</th>\n' +
@@ -396,7 +377,6 @@ function searchStudent() {
                 content += displayStudent(data[i]);
             }
             document.getElementById('studentList').innerHTML = content;
-            // document.getElementById("searchForm").reset()
         }
     });
     event.preventDefault();
@@ -511,7 +491,7 @@ function displayManagerStudent(){
     document.getElementById("manager-user").hidden=true;
     document.getElementById("manager-teacher").hidden=true;
     document.getElementById("manager-officer").hidden=true;
-    getStudent();
+    getStudentByPage(0);
 }
 
 

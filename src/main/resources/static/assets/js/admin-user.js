@@ -4,11 +4,8 @@ let indexUser = 0;
 function getUser() {
     $.ajax({
         type: "GET",
-        //tên API
         url: `http://localhost:8080/admin/users`,
-        //xử lý khi thành công
         success: function (data) {
-            // hien thi danh sach o day
             let content = '<tr>\n' +
                 '<th>Full name</th>\n' +
                 '<th>Birth</th>\n' +
@@ -77,7 +74,6 @@ function displayRole(role) {
 }
 
 function addNewUser() {
-    //lay du lieu
     let data = new FormData();
     let fullName = $('#userFullName').val();
     let email = $('#userEmail').val();
@@ -116,23 +112,17 @@ function addNewUser() {
         url: "http://localhost:8080/admin/users",
         //xử lý khi thành công
         success: function () {
-            getUser();
+            getUserByPage(0);
         }
 
     });
-    //chặn sự kiện mặc định của thẻ
     event.preventDefault();
 }
-
-// chua lam
-
 
 function editUser(id) {
     $.ajax({
         type: "GET",
-        //tên API
         url: `http://localhost:8080/admin/users/${id}`,
-        //xử lý khi thành công
         success: function (data) {
             $('#userFullName').val(data.fullName);
             $('#userEmail').val(data.email);
@@ -182,20 +172,16 @@ function editUser1(id) {
     data.append("json", new Blob([JSON.stringify(newUser)],{
         type: "application/json"
     }))
-    // goi ajax
     $.ajax({
         type: "PUT",
         data: data,
         processData: false,
         contentType: false,
-        //tên API
         url: `http://localhost:8080/admin/users/${id}`,
-        //xử lý khi thành công
         success: function () {
-            getUser();
+            getUserByPage(0);
         }
     });
-    //chặn sự kiện mặc định của thẻ
     event.preventDefault();
 
 }
@@ -219,25 +205,8 @@ function displayUserHeard(){
 function getUserByPage(page) {
     $.ajax({
         type: "GET",
-        //tên API
         url: `http://localhost:8080/admin/users/page?page=${page}`,
-        //xử lý khi thành công
         success: function (data) {
-            // let array = data.content
-            // // hien thi danh sach o day
-            // let content = '<tr>\n' +
-            //     '<th>Name</th>\n' +
-            //     '<th>email</th>\n' +
-            //     '<th>username</th>\n' +
-            //     '<th> password</th>\n' +
-            //     '<th>rePassword;</th>\n' +
-            //     '<th>phoneNumber</th>\n' +
-            //     '<th>birth</th>\n' +
-            //     '<th>address</th>\n' +
-            //     '<th>Identify</th>\n' +
-            //     '<th>role</th>\n' +
-            //     '<th colspan="2">Action</th>\n' +
-            //     '</tr>';
             let array = data.content
             let content = displayUserHeard()
             for (let i = 0; i < array.length; i++) {
@@ -247,26 +216,26 @@ function getUserByPage(page) {
             document.getElementById("displayPageUser").innerHTML = displayPageUser(data)
             document.getElementById("formUser").hidden = true;
             if (data.pageable.pageNumber === 0) {
-                document.getElementById("backup").hidden = true
+                document.getElementById("backupUser").hidden = true
             }
             if (data.pageable.pageNumber + 1 === data.totalPages) {
-                document.getElementById("next").hidden = true
+                document.getElementById("nextUser").hidden = true
             }
         }
     });
 }
 
 function displayPageUser(data){
-    return `<button class="btn btn-primary" id="backup" onclick="isPrevious(${data.pageable.pageNumber})">Previous</button>
+    return `<button class="btn btn-primary" id="backupUser" onclick="isPreviousUser(${data.pageable.pageNumber})">Previous</button>
     <span>${data.pageable.pageNumber+1} | ${data.totalPages}</span>
-    <button class="btn btn-primary" id="next" onclick="isNext(${data.pageable.pageNumber})">Next</button>`
+    <button class="btn btn-primary" id="nextUser" onclick="isNextUser(${data.pageable.pageNumber})">Next</button>`
 }
 
-function isPrevious(pageNumber) {
+function isPreviousUser(pageNumber) {
     getUserByPage(pageNumber-1)
 }
 
-function isNext(pageNumber) {
+function isNextUser(pageNumber) {
     getUserByPage(pageNumber+1)
 }
 
@@ -274,11 +243,8 @@ function searchUser() {
     let searchUser = document.getElementById("searchUser").value;
     $.ajax({
         type: "GET",
-        //tên API
         url: `http://localhost:8080/admin/users/search?search=${searchUser}`,
-        //xử lý khi thành công
         success: function (data) {
-            // hien thi danh sach o day
             let content = '<tr>\n' +
                 '<th>Name</th>\n' +
                 '<th>birth</th>\n' +
@@ -296,7 +262,6 @@ function searchUser() {
                 content += displayUser(data[i]);
             }
             document.getElementById('userList').innerHTML = content;
-            // document.getElementById("searchFormUser").reset()
         }
     });
     event.preventDefault();
@@ -306,23 +271,21 @@ function searchUser() {
 function deleteUser(id) {
     $.ajax({
         type: "DELETE",
-        //tên API
         url: `http://localhost:8080/admin/users/${id}`,
-        //xử lý khi thành công
         success: function () {
-            getUser()
+            getUserByPage(0)
         }
     });
 }
 
 
 function displayManagerUser(){
-    // document.getElementById("manager-teacher").hidden=true;
     document.getElementById("manager-user").hidden=false;
     document.getElementById("manager-student").hidden=true;
     document.getElementById("manager-teacher").hidden=true;
     document.getElementById("manager-officer").hidden=true;
-    getUser();
+    document.getElementById("manager-course").hidden=true;
+    getUserByPage(0);
 }
 
 

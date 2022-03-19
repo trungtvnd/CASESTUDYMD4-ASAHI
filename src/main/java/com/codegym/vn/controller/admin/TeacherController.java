@@ -48,7 +48,7 @@ public class TeacherController {
     }
 
     @GetMapping("/page")
-    public ResponseEntity<Page<Teacher>> showPage(@PageableDefault(value = 3) Pageable pageable) {
+    public ResponseEntity<Page<Teacher>> showPage(@PageableDefault(value = 2) Pageable pageable) {
         Page<Teacher> teachers = iTeacherService.findPage(pageable);
         if (!teachers.iterator().hasNext()) {
             new ResponseEntity<>(HttpStatus.NO_CONTENT);

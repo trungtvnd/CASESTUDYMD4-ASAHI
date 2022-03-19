@@ -16,7 +16,6 @@ function getOfficer() {
                 '<th>Gender</th>\n' +
                 '<th>Phone Number</th>\n' +
                 '<th>Email</th>\n' +
-                '<th>Username</th>\n' +
                 '<th>Identify</th>\n' +
                 '<th>Picture</th>\n' +
                 '<th colspan="2">Action</th>\n' +
@@ -38,7 +37,6 @@ function displayOfficer(officer) {
             <td>${officer.gender}</td>
             <td>${officer.appUser.phoneNumber}</td>
             <td>${officer.appUser.email}</td>
-            <td>${officer.appUser.username}</td>
             <td>${officer.appUser.identify}</td>
             <td><img src="${officer.image}" alt="loi"></td>
             <td><button class="btn btn-danger" onclick="deleteOfficer(${officer.id})">Delete</button></td>
@@ -98,7 +96,7 @@ function addNewOfficer() {
         contentType: false,
         url: "http://localhost:8080/admin/officers",
         success: function () {
-            getOfficer();
+            getOfficerByPage(0);
         }
 
     });
@@ -211,28 +209,25 @@ function editOfficerAccount1(id) {
         data: data,
         processData: false,
         contentType: false,
-        //tên API
         url: `http://localhost:8080/admin/users/${id}`,
-        //xử lý khi thành công
         success: function () {
-            getOfficer();
+            getOfficerByPage(0);
         }
     });
     //chặn sự kiện mặc định của thẻ
     event.preventDefault();
 }
 
-function getTeachersByPage(page) {
+function getOfficerByPage(page) {
     $.ajax({
         type: "GET",
         //tên API
-        url: `http://localhost:8080/admin/teachers/page?page=${page}`,
+        url: `http://localhost:8080/admin/officers/page?page=${page}`,
         //xử lý khi thành công
         success: function (data) {
             let array = data.content
-            // hien thi danh sach o day
             let content = '<tr>\n' +
-                '<th>Name</th>\n' +
+                '<th>Full Name</th>\n' +
                 '<th>Birth</th>\n' +
                 '<th>Gender</th>\n' +
                 '<th>Phone Number</th>\n' +
@@ -242,11 +237,12 @@ function getTeachersByPage(page) {
                 '<th colspan="2">Action</th>\n' +
                 '</tr>';
             for (let i = 0; i < array.length; i++) {
-                content += displayTeacher(array[i]);
+                content += displayOfficer(array[i]);
             }
-            document.getElementById("teacherList").innerHTML = content;
-            document.getElementById("displayPage").innerHTML = displayPage(data)
-            document.getElementById("form").hidden = true;
+
+            document.getElementById("officerList").innerHTML = content;
+            document.getElementById("displayPageOfficer").innerHTML = displayPageOfficer(data)
+            document.getElementById("formEditOfficer").hidden = true;
             if (data.pageable.pageNumber === 0) {
                 document.getElementById("backup").hidden = true
             }
@@ -257,25 +253,26 @@ function getTeachersByPage(page) {
     });
 }
 
-function displayPage(data) {
-    return `<button class="btn btn-primary" id="backup" onclick="isPrevious(${data.pageable.pageNumber})">Previous</button>
+function displayPageOfficer(data) {
+    return `<button class="btn btn-primary" id="backup" onclick="isPreviousOfficer(${data.pageable.pageNumber})">Previous</button>
     <span>${data.pageable.pageNumber + 1} | ${data.totalPages}</span>
-    <button class="btn btn-primary" id="next" onclick="isNext(${data.pageable.pageNumber})">Next</button>`
+    <button class="btn btn-primary" id="next" onclick="isNextOfficer(${data.pageable.pageNumber})">Next</button>`
 }
 
-function isPrevious(pageNumber) {
-    getTeachersByPage(pageNumber - 1)
+function isPreviousOfficer(pageNumber) {
+    getOfficerByPage(pageNumber - 1)
 }
 
-function isNext(pageNumber) {
-    getTeachersByPage(pageNumber + 1)
+function isNextOfficer(pageNumber) {
+    getOfficerByPage(pageNumber + 1)
 }
 
-function searchOficer() {
-    let search = document.getElementById("search").value;
+
+function searchOfficer() {
+    let searchOfficer = document.getElementById("searchOfficer").value;
     $.ajax({
         type: "GET",
-        url: `http://localhost:8080/admin/teachers/search?search=${search}`,
+        url: `http://localhost:8080/admin/officers/search?search=${searchOfficer}`,
         success: function (data) {
             let content = '<tr>\n' +
                 '<th>Name</th>\n' +
@@ -288,15 +285,21 @@ function searchOficer() {
                 '<th colspan="2">Action</th>\n' +
                 '</tr>';
             for (let i = 0; i < data.length; i++) {
-                content += displayTeacher(data[i]);
+                content += displayOfficer(data[i]);
             }
-            document.getElementById('teacherList').innerHTML = content;
-            document.getElementById("searchForm").reset()
+            document.getElementById('officerList').innerHTML = content;
+            document.getElementById("searchOfficer").reset()
+            document.getElementById("formEditOfficer").hidden = true;
+            if (data.pageable.pageNumber === 0) {
+                document.getElementById("backup").hidden = true
+            }
+            if (data.pageable.pageNumber + 1 === data.totalPages) {
+                document.getElementById("next").hidden = true
+            }
         }
     });
     event.preventDefault();
 }
-
 function getRoleOfficerEdit() {
     $.ajax({
         type: "GET",
@@ -342,5 +345,6 @@ function displayManagerOfficer() {
     document.getElementById("manager-user").hidden = true;
     document.getElementById("manager-student").hidden = true;
     document.getElementById("manager-officer").hidden = false;
-    getOfficer();
+    document.getElementById("manager-course").hidden = true;
+    getOfficerByPage();
 }

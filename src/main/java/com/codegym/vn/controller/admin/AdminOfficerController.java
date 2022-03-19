@@ -48,7 +48,7 @@ public class AdminOfficerController {
     }
 
     @GetMapping("/page")
-    public ResponseEntity<Page<Officer>> showPage(@PageableDefault(value = 3) Pageable pageable) {
+    public ResponseEntity<Page<Officer>> showPage(@PageableDefault(value = 1) Pageable pageable) {
         Page<Officer> officers = iOfficerService.findPage(pageable);
         if (!officers.iterator().hasNext()) {
             new ResponseEntity<>(HttpStatus.NO_CONTENT);
