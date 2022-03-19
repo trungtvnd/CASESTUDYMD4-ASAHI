@@ -21,6 +21,8 @@ public class Student {
     @OneToOne
     private Classes classes;
     private String image;
+    @ManyToOne
+    private StatusStudent statusStudent;
 
 
     @Transient

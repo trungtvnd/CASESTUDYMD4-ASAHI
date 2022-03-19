@@ -16,6 +16,7 @@ function getStudent() {
                 '<th>Identify</th>\n' +
                 '<th>Class</th>\n' +
                 '<th>Course</th>\n' +
+                '<th>Status</th>\n' +
                 '<th>Picture</th>\n' +
                 '<th colspan="2">Action</th>\n' +
                 '</tr>';
@@ -33,6 +34,7 @@ function displayStudent(student) {
             <td>${student.gender}</td><td>${student.appUser.phoneNumber}</td>
             <td>${student.appUser.email}</td><td>${student.appUser.username}</td>
             <td>${student.appUser.identify}</td> <td>${student.classes.name}</td> <td>${student.course.name}</td>
+            <td>${student.statusStudent.status}</td>
             <td><img src="${student.image}" alt="loi"></td>
             <td><button class="btn btn-danger" onclick="deleteStudent(${student.id})">Delete</button></td>
             <td><button class="btn btn-warning" onclick="editStudentGet(${student.id})">Edit</button></td></tr>`;
@@ -44,10 +46,30 @@ function displayFormCreateStudent() {
     document.getElementById("form-button-student").onclick = function () {
         addNewStudent();
     }
+    getStatusStudent();
     getClassesStudent();
     getAccountStudent();
     getCourses();
 }
+function getStatusStudent(){
+    $.ajax({
+        type: "GET",
+        url: `http://localhost:8080/admin/statusStudents`,
+        success: function (data) {
+            let content = '<select id="statusStudent">\n'
+            for (let i = 0; i < data.length; i++) {
+                content += displayStatusStudent(data[i]);
+            }
+            content += '</select>'
+            document.getElementById('div-status-student').innerHTML = content;
+        }
+    });
+}
+
+function displayStatusStudent(status){
+    return `<option id="${status.id}" value="${status.id}">${status.status}</option>`
+}
+
 function getAccountStudent(){
     $.ajax({
         type: "GET",
@@ -113,6 +135,7 @@ function addNewStudent() {
     let account = $('#accountStudent').val();
     let classes = $('#classesStudent').val();
     let course = $('#courseStudent').val();
+    let status = $('#statusStudent').val();
     let newTeacher = {
         name: name,
         gender: gender,
@@ -125,6 +148,9 @@ function addNewStudent() {
         },
         course:{
             id:course
+        },
+        statusStudent:{
+            id: status
         }
     };
     data.append("file", $('#imageStudent')[0].files[0])
@@ -158,6 +184,7 @@ function deleteStudent(id) {
 }
 
 function editStudentGet(id){
+    getStatusStudentEdit();
     getClassesStudentEdit();
     getCoursesEdit();
     getRoleStudentEdit();
@@ -207,12 +234,14 @@ function editStudent1(id) {
     let course = $('#courseStudentEdit').val();
     let classes = $('#classesStudentEdit').val();
     let account = $('#accountStudentEdit').val();
+    let status = $('#statusStudentEdit').val();
     let newTeacher = {
         name: name,
         gender: gender,
         course: {id: course} ,
         classes: {id:classes},
         appUser: {id:account},
+        statusStudent:{id:status}
     };
     let data = new FormData;
     data.append("file", $('#imageStudentEdit')[0].files[0]);
@@ -371,6 +400,27 @@ function searchStudent() {
         }
     });
     event.preventDefault();
+}
+
+function getStatusStudentEdit(){
+    $.ajax({
+        type: "GET",
+        //tên API
+        url: `http://localhost:8080/admin/statusStudents`,
+        //xử lý khi thành công
+        success: function (data) {
+            let content = '<select id="statusStudentEdit">\n'
+            for (let i = 0; i < data.length; i++) {
+                content += displayStatusStudentEdit(data[i]);
+            }
+            content += '</select>'
+            document.getElementById('div-statusStudent-edit').innerHTML = content;
+        }
+    });
+}
+
+function displayStatusStudentEdit(status){
+    return `<option id="${status.id}" value="${status.id}">${status.status}</option>`
 }
 
 function getClassesStudentEdit(){

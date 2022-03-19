@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface IStudentRepository extends PagingAndSortingRepository<Student, Long> {
     Iterable<Student> findAllByNameContaining(String name);
     Optional<Student> findByAppUser_Id(Long id);
+    Iterable<Student> findByClasses_Name(String name);
 }

@@ -48,4 +48,9 @@ public class StudentService implements IStudentService {
     public Optional<Student> findStudentByAppUserId(Long id) {
         return repository.findByAppUser_Id(id);
     }
+
+    @Override
+    public Iterable<Student> findStudentByClassName(String className) {
+        return repository.findByClasses_Name(className);
+    }
 }

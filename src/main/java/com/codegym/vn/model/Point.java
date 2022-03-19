@@ -10,12 +10,12 @@ public class Point {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String name;
     private Double practicePoint;
     private Double theoreticalPoint;
 
-    @OneToOne
+   @ManyToOne
     private Student student;
-    @OneToOne
-    private Subject subject;
+
 
 }

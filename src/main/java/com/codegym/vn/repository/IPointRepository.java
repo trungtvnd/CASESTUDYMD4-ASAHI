@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 @Repository
 public interface IPointRepository extends PagingAndSortingRepository<Point, Long> {
-    Optional<Point> findByStudent(Long aLong);
+    Iterable<Point> findByStudent_Id(Long id);
 }

@@ -51,10 +51,12 @@
             margin-right: 5px;
             margin-bottom: 5px;
         }
-
-        table {
-            width: 800px;
+        #pointEditListOfficer input {
+            border-radius: 3px;
+            border: white 0px;
         }
+
+
     </style>
     <link rel="stylesheet" th:href="@{assets/vendor/animate.css/animate.min.css}">
     <link rel="stylesheet" th:href="@{assets/vendor/aos/aos.css}">
@@ -64,8 +66,9 @@
     <link rel="stylesheet" th:href="@{assets/vendor/remixicon/remixicon.css}">
     <link rel="stylesheet" th:href="@{assets/vendor/swiper/swiper-bundle.min.css}">
     <link rel="stylesheet" th:href="@{assets/css/style.css}">
-    <script th:src="@{assets/js/student.js}"></script>
+    <script th:src="@{assets/js/officer.js}"></script>
     <link rel="stylesheet" th:href="@{assets/css/cssAdmin.css}">
+    <link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css}">
 
 </head>
 <body>
@@ -89,7 +92,7 @@
 
     </div>
 </header><!-- End Header -->
-<br><br><br><br>
+<br><br>
 
 <div>
     <table id="div-studentList" class="table table-striped"></table>
@@ -100,10 +103,10 @@
     <ul>
         <p><strong>Dash Board</strong></p>
         <li>
-            <p onclick="displayManagerStudentInfo()">Your InFor</p>
+            <p onclick="displayClasses()">Add Point</p>
         </li>
         <li>
-            <p onclick="displayFeeInformation()">Show Fee InFormation</p>
+            <p onclick="statisticalPoint()">Show Fee InFormation</p>
 
         </li>
         <li>
@@ -118,50 +121,53 @@
     </ul>
 </div>
 <div id="content">
-    <div hidden id="displayInformationStudent">
-        <table th:if="${userStudent} != null" class="table table-striped">
-            <tr>
-                <td>Full Name</td>
-                <td th:text="${userStudent.get().getAppUser().getFullName()}"></td>
-            </tr>
-            <tr>
-                <td>Mail</td>
-                <td th:text="${userStudent.get().getAppUser().getEmail()}"></td>
-            </tr>
-            <tr>
-                <td>Phone Number</td>
-                <td th:text="${userStudent.get().getAppUser().getPhoneNumber()}"></td>
-            </tr>
-            <tr>
-                <td>Birth</td>
-                <td th:text="${userStudent.get().getAppUser().getBirth()}"></td>
-            </tr>
-            <tr>
-                <td>Address</td>
-                <td th:text="${userStudent.get().getAppUser().getAddress()}"></td>
-            </tr>
-            <tr>
-                <td>Identify</td>
-                <td th:text="${userStudent.get().getAppUser().getIdentify()}"></td>
-            </tr>
-            <tr>
-                <td>Course</td>
-                <td th:text="${userStudent.get().getCourse().getName()}"></td>
-            </tr>
-            <tr>
-                <td>Classes</td>
-                <td th:text="${userStudent.get().getClasses().getName()}"></td>
-            </tr>
-            <tr>
-                <td>Identify</td>
-                <td th:text="${userStudent.get().getAppUser().getIdentify()}"></td>
-            </tr>
-            <tr>
-                <td>Picture</td>
-                <td><img th:src=" @{${userStudent.get().getImage()}}" alt="Lỗi" src=""></td>
-            </tr>
+    <div hidden id="addPoint">
+        <div id="chooseClassAddPoint">
+                <label>Choose Class you want to add point</label><br>
+                <div id="div-displayClasses"></div>
+            <br>
+                <button type="submit" id="form-button-addPoint" class="btn btn-primary">Submit</button>
+        </div>
+        <br>
+        <div hidden id="showTableStudent">
+            <table id="studentListAddPoint" class="table table-striped"></table>
+        </div>
 
-        </table>
+        <form hidden id="formPoint">
+<!--            <div class="mb-3">-->
+<!--                <label for="pointNameStudent" class="form-label">Name Student</label>-->
+<!--                <input type="text" class="form-control" id="pointNameStudent">-->
+<!--            </div>-->
+
+            <div class="mb-3">
+                <label for="nameModule" class="form-label">Name Module</label>
+                <input type="text" class="form-control" id="nameModule">
+            </div>
+            <div class="mb-3 mt-3">
+                <label for="practicePoint" class="form-label">Practice Point:</label>
+                <input type="text" class="form-control" id="practicePoint" placeholder="Enter practicePoint" required>
+            </div>
+            <div class="mb-3 mt-3">
+                <label for="theoreticalPoint" class="form-label">Theoretical Point:</label>
+                <input type="text" class="form-control" id="theoreticalPoint" placeholder="Enter theoreticalPoint" required>
+            </div>
+            <button type="submit" id="formPoint-button" class="btn btn-primary">Submit</button>
+        </form>
+
+        <div hidden id="div-point-officer" >
+            <table id="pointListOfficer" class="table table-striped"></table>
+            <table id="avgPointTable" class="table table-striped">
+            </table>
+        </div>
+        <div hidden id="div-pointEdit-officer" >
+            <table id="pointEditListOfficer" class="table table-striped"></table>
+        </div>
+
+
+    </div>
+
+    <div hidden id="changePoint">
+
     </div>
     <div hidden id="feeInfo">
         <div class="mb-3">
@@ -178,10 +184,7 @@
         </div>
     </div>
 
-    <div hidden id="div-point" >
-        <table id="pointList" class="table table-striped"></table>
 
-    </div>
 </div>
 
 

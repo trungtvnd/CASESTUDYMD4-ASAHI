@@ -1,8 +1,8 @@
 package com.codegym.vn.service.Impl;
 
-import com.codegym.vn.model.Point;
-import com.codegym.vn.repository.IPointRepository;
-import com.codegym.vn.service.interfaceImpl.IPointService;
+import com.codegym.vn.model.Fee;
+import com.codegym.vn.repository.IFeeRepository;
+import com.codegym.vn.service.interfaceImpl.IFeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,18 +10,17 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 @Service
-public class PointService implements IPointService {
-@Autowired
-private IPointRepository repository;
-
+public class FeeServiceImpl implements IFeeService {
+    @Autowired
+    private IFeeRepository repository;
     @Override
-    public Iterable<Point> findAll() {
+    public Iterable<Fee> findAll() {
         return repository.findAll();
     }
 
     @Override
-    public Point save(Point point) {
-        return repository.save(point);
+    public Fee save(Fee fee) {
+        return repository.save(fee);
     }
 
     @Override
@@ -30,22 +29,22 @@ private IPointRepository repository;
     }
 
     @Override
-    public Page<Point> findPage(Pageable pageable) {
+    public Page<Fee> findPage(Pageable pageable) {
         return repository.findAll(pageable);
     }
 
     @Override
-    public Optional<Point> findById(Long id) {
+    public Optional<Fee> findById(Long id) {
         return repository.findById(id);
     }
 
     @Override
-    public Iterable<Point> findByName(String name) {
-        return null;
+    public Iterable<Fee> findByName(String name) {
+        return repository.findByNameContaining(name);
     }
 
     @Override
-    public Iterable<Point> findPointByStudentID(Long id) {
+    public Optional<Fee> findStudentByStudentID(Long id) {
         return repository.findByStudent_Id(id);
     }
 }

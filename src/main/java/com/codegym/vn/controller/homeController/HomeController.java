@@ -1,9 +1,11 @@
-package com.codegym.vn.controller.admin;
+package com.codegym.vn.controller.homeController;
 
 
 import com.codegym.vn.model.AppUser;
+import com.codegym.vn.model.Fee;
 import com.codegym.vn.model.Student;
 import com.codegym.vn.service.interfaceImpl.IAppUserService;
+import com.codegym.vn.service.interfaceImpl.IFeeService;
 import com.codegym.vn.service.interfaceImpl.IStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,6 +24,8 @@ public class HomeController {
     private IAppUserService iAppUserService;
     @Autowired
     private IStudentService iStudentService;
+    @Autowired
+    private  IFeeService iFeeService;
 
     private String getPrincipal() {
         String userName = null;
@@ -39,6 +43,12 @@ public class HomeController {
         return "/template-view/index";
     }
 
+    @GetMapping("/")
+    public String home1(){
+        return "/template-view/index";
+    }
+
+
     @GetMapping("/teacher")
     public String user(Model model){
         model.addAttribute("user", getPrincipal());
@@ -50,9 +60,16 @@ public class HomeController {
         ModelAndView modelAndView = new ModelAndView("student-home");
         Optional<AppUser> appUser = iAppUserService.findByUsername(getPrincipal());
         Optional<Student> student = iStudentService.findStudentByAppUserId(appUser.get().getId());
+        Optional<Fee> fee = iFeeService.findStudentByStudentID(student.get().getId());
         modelAndView.addObject("user", getPrincipal());
         modelAndView.addObject("userStudent", student);
+        modelAndView.addObject("fee", fee);
         return modelAndView;
+    }
+    @GetMapping("/officers")
+    public String officer (Model model){
+        model.addAttribute("user", getPrincipal());
+        return "/officer-home";
     }
 
     @GetMapping("/admin")
