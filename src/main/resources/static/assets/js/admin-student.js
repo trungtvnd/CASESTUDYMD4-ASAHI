@@ -311,6 +311,7 @@ function displayStudentHeard(){
     <th>Identify</th>
     <th>Class</th>
     <th>Course</th>
+    <th>Status</th>
     <th>Picture</th>
     <th colspan="2">Action</th>
     </tr>`;
@@ -330,6 +331,7 @@ function getStudentByPage(page) {
             document.getElementById("studentList").innerHTML = content;
             document.getElementById("displayPageStudent").innerHTML = displayPageStudent(data)
             document.getElementById("formStudent").hidden = true;
+            document.getElementById("formEditStudent").hidden = true;
             if (data.pageable.pageNumber === 0) {
                 document.getElementById("backupStudent").hidden = true
             }

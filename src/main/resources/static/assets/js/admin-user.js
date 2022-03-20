@@ -206,9 +206,10 @@ function getUserByPage(page) {
             for (let i = 0; i < array.length; i++) {
                 content += displayUser(array[i]);
             }
+            document.getElementById("formUser").hidden = true;
             document.getElementById("userList").innerHTML = content;
             document.getElementById("displayPageUser").innerHTML = displayPageUser(data)
-            document.getElementById("formUser").hidden = true;
+
             if (data.pageable.pageNumber === 0) {
                 document.getElementById("backupUser").hidden = true
             }

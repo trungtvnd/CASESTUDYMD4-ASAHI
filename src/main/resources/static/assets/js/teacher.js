@@ -51,6 +51,8 @@ function showStudentByClasses(){
             document.getElementById("showTableStudentByClass").hidden = false;
             document.getElementById("showTableTeacherByClass").hidden = true;
             document.getElementById("diaryClass-textArea").hidden = true;
+            document.getElementById("diaryStudent-textArea").hidden = true;
+            document.getElementById("div-detailStudent").hidden = true;
 
         }
     });
@@ -75,7 +77,6 @@ function showTeacherByClass(){
                 '<th>Phone Number</th>\n' +
                 '<th>Email</th>\n' +
                 '<th>Class</th>\n' +
-                '<th colspan="2">Action</th>\n' +
                 '</tr>';
             for (let i = 0; i < data.length; i++) {
                 content += displayTeacherByClass(data[i]);
@@ -93,9 +94,8 @@ function displayTeacherByClass(teacher) {
     return `<tr><td>${teacher.appUser.fullName}</td>
             <td>${teacher.appUser.phoneNumber}</td>
             <td>${teacher.appUser.email}</td>
-            <td>${teacher.classes.name}</td>
-            <td><button class="btn btn-danger" onclick="deleteTeacher(${teacher.id})">Delete</button></td>
-            <td><button class="btn btn-warning" onclick="editTeacherGet(${teacher.id})">Edit</button></td></tr>`;
+            <td>${teacher.classes.name}</td></tr>
+          `;
 
 }
 

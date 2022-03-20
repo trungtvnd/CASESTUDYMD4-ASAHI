@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -15,6 +17,8 @@ import java.util.Optional;
 @CrossOrigin("*")
 @RequestMapping("/admin/users")
 public class AppUserController {
+    @Autowired
+    public JavaMailSender mailSender;
     @Autowired
     private IAppUserService iAppUserService;
 
@@ -49,12 +53,17 @@ public class AppUserController {
     @PostMapping
     public ResponseEntity<AppUser> createAppUser(@RequestPart("json") AppUser appUser){
         AppUser appUser1 = iAppUserService.save(appUser);
-//        SimpleMailMessage message = new SimpleMailMessage();
-//        message.setTo(signUp.getEmail());
-//        message.setSubject("Sign up account confirm email");
-//        message.setText("Hello, Im testing Simple Email! Sign up success with account: " + signUp.getAccount());
-//        this.mailSender.send(message);
-        return new ResponseEntity<>(appUser1,HttpStatus.OK);
+        if(appUser1 != null){
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setTo(appUser1.getEmail());
+            message.setSubject("Sign up account confirm email");
+            message.setText("Hello, Your Account just have created in ASAHI EDUCATION \n" + "with username: " + appUser1.getUsername() +"\n"
+                    + "and password: " + appUser1.getPassword());
+            this.mailSender.send(message);
+            return new ResponseEntity<>(appUser1,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
     }
 
     @PutMapping("{id}")

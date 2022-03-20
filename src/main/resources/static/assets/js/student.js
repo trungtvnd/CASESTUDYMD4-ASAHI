@@ -3,6 +3,7 @@
 function displayManagerStudentInfo(){
     document.getElementById("displayInformationStudent").hidden= false;
     document.getElementById("feeInfo").hidden= true;
+    document.getElementById("div-point").hidden= true;
 }
 
 

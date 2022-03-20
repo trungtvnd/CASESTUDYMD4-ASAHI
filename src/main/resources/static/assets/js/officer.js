@@ -15,7 +15,7 @@ function getPoint(idStudent) {
             for (let i = 0; i < data.length; i++) {
                 content += displayPointOfficer(data[i]);
             }
-           content1 += `<tr><td>AvgPoint</td>
+           content1 +=`<tr><td>AvgPoint</td>
             <td>${avgPractisePoint(data)}</td>
             <td>${theoreticalPoint(data)}</td></tr>`;
 
@@ -53,9 +53,7 @@ function displayPointOfficer(point) {
 function displayClasses() {
     $.ajax({
         type: "GET",
-        //tên API
         url: `http://localhost:8080/officers/showClass`,
-        //xử lý khi thành công
         success: function (data) {
             let content = '<select id="showClasses">\n'
             for (let i = 0; i < data.length; i++) {
@@ -64,6 +62,10 @@ function displayClasses() {
             content += '</select>'
             document.getElementById('div-displayClasses').innerHTML = content;
             document.getElementById('addPoint').hidden = false;
+            document.getElementById('chooseClassAddPoint').hidden = false;
+            document.getElementById('div-point-officer').hidden = true;
+            document.getElementById('div-pointEdit-officer').hidden = true;
+
             document.getElementById("form-button-addPoint").onclick = function () {
                 chooseClasses();
             }
