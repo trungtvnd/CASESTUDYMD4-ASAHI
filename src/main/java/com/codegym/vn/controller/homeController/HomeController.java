@@ -38,15 +38,7 @@ public class HomeController {
         }
         return userName;
     }
-    @GetMapping("/home")
-    public String home(){
-        return "/template-view/index";
-    }
 
-    @GetMapping("/")
-    public String home1(){
-        return "/template-view/index";
-    }
 
 
     @GetMapping("/teachers")
@@ -85,6 +77,25 @@ public class HomeController {
     public String accessDeniedPage(ModelMap model) {
         model.addAttribute("user", getPrincipal());
         return "/access-denied";
+    }
+    @GetMapping("/home")
+    public String home(){
+        return "/index";
+    }
+
+    @GetMapping("/")
+    public String home1(){
+        return "/index";
+    }
+
+    @GetMapping("/home/courses")
+    public String courseEducation(){
+        return "/template-view/courses";
+    }
+
+    @GetMapping("/home/event")
+    public String event(){
+        return "/template-view/events";
     }
 
 
