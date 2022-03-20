@@ -9,9 +9,7 @@ function displayManagerStudentInfo(){
 function displayFeeInformation() {
     $.ajax({
         type: "GET",
-        //tên API
         url: `http://localhost:8080/students/feeInfo`,
-        //xử lý khi thành công
         success: function (data) {
             // hien thi danh sach o day
             $('#feeTotal').val(data.feeTotal);

@@ -37,7 +37,7 @@ public class AppUserController {
     }
 
     @GetMapping("/page")
-    public ResponseEntity<Page<AppUser>> showPage(@PageableDefault(value =2) Pageable pageable) {
+    public ResponseEntity<Page<AppUser>> showPage(@PageableDefault(value =5) Pageable pageable) {
         Page<AppUser> users = iAppUserService.findPage(pageable);
         if (!users.iterator().hasNext()) {
             new ResponseEntity<>(HttpStatus.NO_CONTENT);

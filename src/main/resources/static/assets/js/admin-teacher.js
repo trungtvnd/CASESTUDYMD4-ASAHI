@@ -74,17 +74,17 @@ function getClasses() {
         url: `http://localhost:8080/admin/etc`,
         //xử lý khi thành công
         success: function (data) {
-            let content = '<select id="classesTeacher">\n'
+            let content = '<select id="classesTeacherCreate">\n'
             for (let i = 0; i < data.length; i++) {
-                content += displayClasses(data[i]);
+                content += displayClassesTeacher(data[i]);
             }
             content += '</select>'
-            document.getElementById('div-classes').innerHTML = content;
+            document.getElementById('div-classesCreate').innerHTML = content;
         }
     });
 }
 
-function displayClasses(classes) {
+function displayClassesTeacher(classes) {
     return `<option id="${classes.id}" value="${classes.id}">${classes.name}</option>`;
 }
 
@@ -92,7 +92,7 @@ function addNewTeacher() {
     let name = $('#nameTeacher').val();
     let gender = $('#genderTeacher').val();
     let appUser = $('#accountTeacher').val();
-    let classes = $('#classesTeacher').val();
+    let classes = $('#classesTeacherCreate').val();
     let newTeacher = {
         name: name,
         gender: gender,
@@ -115,7 +115,7 @@ function addNewTeacher() {
         contentType: false,
         url: "http://localhost:8080/admin/teachers",
         success: function () {
-            getTeacher();
+            getTeacherByPage(0);
         }
     });
     event.preventDefault();
@@ -126,7 +126,7 @@ function deleteTeacher(id) {
         type: "DELETE",
         url: `http://localhost:8080/admin/teachers/${id}`,
         success: function () {
-            getTeacher();
+            getTeacherByPage(0);
         }
     });
 }
@@ -242,7 +242,7 @@ function editTeacherAppUser1(id) {
         contentType: false,
         url: `http://localhost:8080/admin/users/${id}`,
         success: function () {
-          getTeacher();
+          getTeacherByPage(0);
         }
     });
     event.preventDefault();

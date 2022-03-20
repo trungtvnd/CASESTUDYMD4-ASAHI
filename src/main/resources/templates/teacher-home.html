@@ -52,9 +52,16 @@
             margin-bottom: 5px;
         }
 
-        table {
-            width: 800px;
+        #pointEditListOfficer input {
+            border-radius: 3px;
+            border: white 0px;
         }
+        #diaryClass-note{
+            border-radius: 5px;
+            border: blue solid 1px;
+        }
+
+
     </style>
     <link rel="stylesheet" th:href="@{assets/vendor/animate.css/animate.min.css}">
     <link rel="stylesheet" th:href="@{assets/vendor/aos/aos.css}">
@@ -64,8 +71,10 @@
     <link rel="stylesheet" th:href="@{assets/vendor/remixicon/remixicon.css}">
     <link rel="stylesheet" th:href="@{assets/vendor/swiper/swiper-bundle.min.css}">
     <link rel="stylesheet" th:href="@{assets/css/style.css}">
-    <script th:src="@{assets/js/student.js}"></script>
+    <script th:src="@{assets/js/officer.js}"></script>
     <link rel="stylesheet" th:href="@{assets/css/cssAdmin.css}">
+    <link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css}">
+    <script th:src="@{assets/js/teacher.js}"></script>
 
 </head>
 <body>
@@ -89,7 +98,7 @@
 
     </div>
 </header><!-- End Header -->
-<br><br><br><br>
+<br><br>
 
 <div>
     <table id="div-studentList" class="table table-striped"></table>
@@ -100,85 +109,47 @@
     <ul>
         <p><strong>Dash Board</strong></p>
         <li>
-            <p onclick="displayManagerStudentInfo()">Your InFor</p>
+            <p onclick="showStudentByClasses()">Your Classes</p>
         </li>
         <li>
-            <p onclick="displayFeeInformation()">Show Fee InFormation</p>
+            <p onclick="showTeacherByClass()">Show Teacher</p>
 
-        </li>
-        <li>
-            <p onclick="displayPoint()">Point</p>
         </li>
     </ul>
 </div>
 <div id="content">
-    <div hidden id="displayInformationStudent">
-        <table th:if="${userStudent} != null" class="table table-striped">
-            <tr>
-                <td>Full Name</td>
-                <td th:text="${userStudent.get().getAppUser().getFullName()}"></td>
-            </tr>
-            <tr>
-                <td>Mail</td>
-                <td th:text="${userStudent.get().getAppUser().getEmail()}"></td>
-            </tr>
-            <tr>
-                <td>Phone Number</td>
-                <td th:text="${userStudent.get().getAppUser().getPhoneNumber()}"></td>
-            </tr>
-            <tr>
-                <td>Birth</td>
-                <td th:text="${userStudent.get().getAppUser().getBirth()}"></td>
-            </tr>
-            <tr>
-                <td>Address</td>
-                <td th:text="${userStudent.get().getAppUser().getAddress()}"></td>
-            </tr>
-            <tr>
-                <td>Identify</td>
-                <td th:text="${userStudent.get().getAppUser().getIdentify()}"></td>
-            </tr>
-            <tr>
-                <td>Course</td>
-                <td th:text="${userStudent.get().getCourse().getName()}"></td>
-            </tr>
-            <tr>
-                <td>Classes</td>
-                <td th:text="${userStudent.get().getClasses().getName()}"></td>
-            </tr>
-            <tr>
-                <td>Identify</td>
-                <td th:text="${userStudent.get().getAppUser().getIdentify()}"></td>
-            </tr>
-            <tr>
-                <td>Picture</td>
-                <td><img th:src=" @{${userStudent.get().getImage()}}" alt="Lỗi" src=""></td>
-            </tr>
 
-        </table>
+
+    <div hidden id="showTableStudentByClass">
+        <div class="row" style="float: left">
+            <!--            <button class="btn btn-primary" onclick="displayFormCreateDiaryClass()">Create New Note</button>-->
+            <p onclick="displayFormCreateDiaryClass()" style="color: blue"> Create Note</p>
+        </div>
+        <div hidden id="diaryClass-textArea">
+            <label>
+                <textarea id="diaryClass-note" rows="3" cols="70"></textarea>
+            </label>
+            <button type="submit" id="form-button-diaryClass" class="btn btn-primary">Submit</button>
+
+        </div>
+        <br>
+        <table id="studentListByClass" class="table table-striped"></table>
+
     </div>
-    <div hidden id="feeInfo">
-        <div class="mb-3">
-            <label for="feeTotal" class="form-label"><strong>Fee Total:</strong></label>
-            <input type="text" readonly="readonly" class="form-control" id="feeTotal" placeholder="Enter Email" >
-        </div>
-        <div class="mb-3">
-            <label for="feePaid" class="form-label"><strong>Paid:</strong></label>
-            <input type="text" readonly="readonly" class="form-control" id="feePaid">
-        </div>
-        <div class="mb-3">
-            <label for="remainingPay" class="form-label"><strong>Remaining Pay:</strong></label>
-            <input type="text" readonly="readonly" class="form-control" id="remainingPay">
+    <div hidden id="div-detailStudent">
+        <table id="detailStudent" class="table table-striped"></table>
+        <div hidden id="diaryStudent-textArea" >
+            <label>
+                <textarea id="diaryStudent-note" rows="3" cols="70"></textarea>
+            </label>
+            <button type="submit" id="form-button-diaryStudent" class="btn btn-primary">Submit</button>
         </div>
     </div>
 
-    <div hidden id="div-point" >
-        <table id="pointList" class="table table-striped"></table>
-
+    <div hidden id="showTableTeacherByClass">
+        <table id="teacherListByClass" class="table table-striped"></table>
     </div>
 </div>
-
-
 
 
 <br><br><br><br>

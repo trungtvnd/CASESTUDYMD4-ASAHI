@@ -11,8 +11,6 @@ function getUser() {
                 '<th>Birth</th>\n' +
                 '<th>Email</th>\n' +
                 '<th>Username</th>\n' +
-                '<th>Password</th>\n' +
-                '<th>RePassword</th>\n' +
                 '<th>Phone Number</th>\n' +
                 '<th>Address</th>\n' +
                 '<th>Identify</th>\n' +
@@ -34,8 +32,6 @@ function displayUser(user) {
             <td>${user.email}</td>
             <td>${user.username}</td>
             <td>${user.password}</td>
-            <td>${user.rePassword}</td>
-            <td>${user.phoneNumber}</td>
             <td>${user.address}</td>
             <td>${user.identify}</td>
             <td>${user.role.name}</td>
@@ -191,8 +187,6 @@ function displayUserHeard(){
         <th>Name</th>
         <th>email</th>
         <th>username</th>
-        <th> password</th>
-        <th>rePassword;</th>
         <th>phoneNumber</th>
         <th>birth</th>
         <th>address</th>
@@ -250,8 +244,6 @@ function searchUser() {
                 '<th>birth</th>\n' +
                 '<th>email</th>\n' +
                 '<th>username</th>\n' +
-                '<th> password</th>\n' +
-                '<th>rePassword</th>\n' +
                 '<th>phoneNumber</th>\n' +
                 '<th>address</th>\n' +
                 '<th>Identify</th>\n' +

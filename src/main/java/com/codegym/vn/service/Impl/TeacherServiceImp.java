@@ -1,5 +1,6 @@
 package com.codegym.vn.service.Impl;
 
+import com.codegym.vn.model.Student;
 import com.codegym.vn.model.Teacher;
 import com.codegym.vn.repository.ITeacherRepository;
 import com.codegym.vn.service.interfaceImpl.ITeacherService;
@@ -43,5 +44,10 @@ public class TeacherServiceImp  implements ITeacherService {
     @Override
     public Iterable<Teacher> findByName(String name) {
         return iTeacherRepository.findAllByNameContaining(name);
+    }
+
+    @Override
+    public Optional<Teacher> findByAppUsername(String name) {
+        return iTeacherRepository.findByAppUser_Username(name);
     }
 }

@@ -20,7 +20,7 @@ import java.util.Optional;
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/admin/teachers")
-public class TeacherController {
+public class AdminTeacherController {
     @Value("${upload.path}")
     private String upload;
 

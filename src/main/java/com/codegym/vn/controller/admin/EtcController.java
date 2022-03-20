@@ -18,11 +18,11 @@ public class EtcController {
     IClassesService iClassesService;
 
     @GetMapping
-    public ResponseEntity<?> showRole() {
-        Iterable<Classes> roles = iClassesService.findAll();
-        if (!roles.iterator().hasNext()) {
+    public ResponseEntity<?> showClasses() {
+        Iterable<Classes> classes = iClassesService.findAll();
+        if (!classes.iterator().hasNext()) {
             new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(roles, HttpStatus.OK);
+        return new ResponseEntity<>(classes, HttpStatus.OK);
     }
 }

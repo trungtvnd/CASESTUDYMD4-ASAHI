@@ -1,12 +1,8 @@
 package com.codegym.vn.controller.homeController;
 
 
-import com.codegym.vn.model.AppUser;
-import com.codegym.vn.model.Fee;
-import com.codegym.vn.model.Student;
-import com.codegym.vn.service.interfaceImpl.IAppUserService;
-import com.codegym.vn.service.interfaceImpl.IFeeService;
-import com.codegym.vn.service.interfaceImpl.IStudentService;
+import com.codegym.vn.model.*;
+import com.codegym.vn.service.interfaceImpl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,6 +22,10 @@ public class HomeController {
     private IStudentService iStudentService;
     @Autowired
     private  IFeeService iFeeService;
+    @Autowired
+    private ITeacherService iTeacherService;
+    @Autowired
+    private IClassesService iClassesService;
 
     private String getPrincipal() {
         String userName = null;
@@ -49,10 +49,13 @@ public class HomeController {
     }
 
 
-    @GetMapping("/teacher")
-    public String user(Model model){
-        model.addAttribute("user", getPrincipal());
-        return "/template-home/user";
+    @GetMapping("/teachers")
+    public ModelAndView teachers(){
+        ModelAndView modelAndView = new ModelAndView("teacher-home");
+       modelAndView.addObject("user", getPrincipal());
+
+//        modelAndView.addObject("listStudentByClass", students);
+        return modelAndView;
     }
 
     @GetMapping("/students")
